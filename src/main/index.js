@@ -1,9 +1,7 @@
 import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import TuyAPI from 'tuyapi';
-import { windowsStore } from 'process';
 
-// 
 const entryUrl = process.env.NODE_ENV === 'development'
   ? 'http://localhost:8080/index.html'
   : `file://${path.join(__dirname, 'index.html')}`;
