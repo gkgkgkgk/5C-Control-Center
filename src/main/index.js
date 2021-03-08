@@ -12,7 +12,7 @@ app.on('ready', () => {
   window = new BrowserWindow({ width: 1024, height: 600 });
   window.loadURL(entryUrl);
   window.on('closed', () => window = null);
-  window.setMenu(null);
+  //window.setMenu(null);
 });
 
 app.on('window-all-closed', () => {

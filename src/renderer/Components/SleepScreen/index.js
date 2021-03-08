@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { remote } from 'electron';
 const con = remote.getGlobal("console");
 import { isAllLightsOff, toggleAllLights } from '../../HelperFunctions/Lights/lights';
-import Toggle from 'react-toggle';
-import "react-toggle/style.css";
+import Toggle from './toggle.js';
 import Clock from './clock.js';
 
 const SleepScreen = ({toggleView}) => {
@@ -14,6 +13,7 @@ const SleepScreen = ({toggleView}) => {
         setState(!state);
     }
 
+<<<<<<< Updated upstream
     const changeView = ({target})=>{
 
         console.log(target); 
@@ -23,25 +23,28 @@ const SleepScreen = ({toggleView}) => {
         }
 
 
+=======
+    const changeView = (e) => {
+
+        console.log(e);
+>>>>>>> Stashed changes
     }
 
 
     return (
 
-        <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex',justifyContent:'center'}} onClick={changeView}>
-            <div style={{width:'33%'}}/>
+        <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }} onClick={changeView}>
             <div style={{ display: 'flex', flexDirection: "column" }}>
-                <div style={{height:'33%'}} />
+                <div style={{ height: '33%' }} />
                 <Clock />
                 <Toggle
                     defaultChecked={state}
                     icons={false}
                     onChange={onUpdate}
-                    
+
                 />
 
             </div>
-            <div style={{width:'33%'}} />
         </div>
     )
 }
