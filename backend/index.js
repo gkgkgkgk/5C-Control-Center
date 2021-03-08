@@ -6,7 +6,6 @@ const {device_keys} = require("../env/devices.json");
 
 const devices = device_keys.map(({Name,id,key})=>{
     let count = 0;
-    console.log({id,key}) 
     const device = new TuyAPI({id,key});
     device.find().then(()=>{
         device.connect();
@@ -22,6 +21,13 @@ const devices = device_keys.map(({Name,id,key})=>{
 }); 
 
 app.get("/turnOfAllLights",(req,res)=>{
-
+    devices.forEach(({device})=>{
+        device.set({ dps: 20, set: false }); 
+    })
+});
+app.get("/turnOnAllLights",(req,res)=>{
+    devices.forEach(({device})=>{
+        device.set({ dps: 20, set: true }); 
+    })
 });
 
