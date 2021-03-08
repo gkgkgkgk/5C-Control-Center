@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 
-const Toggle = ({ refrence, onChange }) => {
+const Toggle = ({ refrence, onChange,style }) => {
     const [toggle, setToggle] = useState(true);
     const [path, setPath] = useState("../assets/svg/lampOn.svg");
 
@@ -13,7 +13,7 @@ const Toggle = ({ refrence, onChange }) => {
     }
 
     return (
-        <div onClick={changeToggle} className="toggle" >
+        <div onClick={changeToggle} className="toggle" style = {style} >
             <img height="100em" width="100em" src={path} ref={refrence}></img>
         </div>
     )

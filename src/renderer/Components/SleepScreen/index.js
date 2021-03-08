@@ -30,12 +30,13 @@ const SleepScreen = ({ toggleView }) => {
     return (
 
         <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }} onClick={changeView}>
-            <div style={{ display: 'flex', flexDirection: "column" }}>
+            <div style={{ display: 'flex', flexDirection: "column"}}>
                 <div style={{ height: '33%' }} />
                 <Clock />
                 <Toggle
                     refrence={toggleRef}
                     onChange={onUpdate}
+                    style = {{textAlign:'center'}}
                 />
 
             </div>
