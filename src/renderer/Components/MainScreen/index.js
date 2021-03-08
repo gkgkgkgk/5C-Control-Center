@@ -16,10 +16,10 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
 
     useEffect(() => {
         setTimeout(timeoutFunction, timeoutTime);
-        return function cleanup(){
-            const killId = setTimeout(()=>{
-                for(let i = killId; i>0; i--) clearInterval(i)
-            },0)
+        return function cleanup() {
+            const killId = setTimeout(() => {
+                for (let i = killId; i > 0; i--) clearInterval(i)
+            }, 0)
         }
     }, [])
 
