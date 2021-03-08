@@ -6,7 +6,7 @@ import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 import Clock from './clock.js';
 
-const SleepScreen = () => {
+const SleepScreen = ({toggleView}) => {
 
     const [state, setState] = useState(isAllLightsOff());
     const onUpdate = () => {
@@ -14,9 +14,15 @@ const SleepScreen = () => {
         setState(!state);
     }
 
-    const changeView = (e)=>{
+    const changeView = ({target})=>{
 
-        console.log(e); 
+        console.log(target); 
+        console.log(target.className.includes("react-toggle"))
+        if(!target.className.includes("react-toggle")){
+            toggleView(); 
+        }
+
+
     }
 
 
