@@ -17,10 +17,9 @@ const SleepScreen = ({ toggleView }) => {
 
     const changeView = ({ target }) => {
 
-        console.log(toggleRef);
+        console.log(toggleRef.current);
         console.log(target);
-        console.log(target.className.includes("toggle"))
-        if (!target.className.includes("toggle")) {
+        if (toggleRef.current != target) {
             toggleView();
         }
     }
@@ -35,7 +34,8 @@ const SleepScreen = ({ toggleView }) => {
                 <div style={{ height: '33%' }} />
                 <Clock />
                 <Toggle
-                    ref={toggleRef}
+                    refrence={toggleRef}
+                    onChange={onUpdate}
                 />
 
             </div>
