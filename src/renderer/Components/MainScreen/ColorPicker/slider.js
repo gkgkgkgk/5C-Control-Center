@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
 
-const Slider = () => {
+const Slider = ({ drag = 1 }) => {
     const [mouseClick, setMouseClick] = useState(false);
     const [mousePos, setMousePos] = useState({ x: null, y: null })
     const [startPos, setStartPos] = useState({ x: null, y: null })
     const [change, setChange] = useState(false);
     const [pos, setPos] = useState(179);
     const [lastPos, setLastPos] = useState(179);
+    const [lastTime, setLastTime] = useState(new Date().getMilliseconds());
+    const [velocity, setVelocity] = useState(0);
 
 
     const updateMousePos = ev => {
         setMousePos({ x: ev.clientX, y: ev.clientY });
     };
-
 
     useEffect(() => {
         window.addEventListener("mousemove", updateMousePos);
@@ -26,14 +27,44 @@ const Slider = () => {
         setStartPos({ x: ev.clientX, y: ev.clientY });
     }
 
-    const mouseUp = () => {
+    const mouseUp = ev => {
+
+        // let t = new Date().getMilliseconds() - lastTime;
+
+        // if (t > 0) {
+        //     let d = (Math.round(ev.clientX / 3) - lastPos) / (new Date().getMilliseconds() - lastTime);
+        //     console.log(d);
+        // }
+
+
+        // if (velocity == 0) {
+        //     setChange(false);
+        // }
+
+        // let p = pos;
+        // let v = velocity;
+
+        // while (Math.abs(v) > 0) {
+        //     let nv = Math.round(Math.abs(v) - drag);
+
+        //     if (nv <= 0) {
+        //         break;
+        //     }
+        //     else {
+        //         v = Math.sign(v) * (nv);
+        //         p += v;
+        //         setPos(p);
+        //     }
+        // }
+
+        // setVelocity(0);
         setChange(false);
-        setLastPos(pos)
-        console.log(pos);
+        setLastPos(pos);
     }
 
     useEffect(() => {
         if (change) {
+            //setLastPos(pos);
             let d = mousePos.x - startPos.x;
             let p = lastPos + Math.round(d / 3);
 
@@ -43,12 +74,16 @@ const Slider = () => {
                 p += 357
             }
 
+            setVelocity(Math.abs(p - pos) / (new Date().getMilliseconds() - lastTime));
+
+            setLastTime(new Date().getMilliseconds());
             setPos(p);
         }
     }, [mousePos])
 
     return (
         <div onMouseDown={mouseDown} onMouseUp={mouseUp} style={{
+            height: "50px",
             background: `repeating-linear-gradient(
             90deg,
             rgba(255, 0, 0, 1) ${pos * 3}px,
@@ -61,7 +96,7 @@ const Slider = () => {
             rgba(95, 21, 242, 1) ${pos * 3 + 771}px,
             rgba(186, 12, 248, 1) ${pos * 3 + 871}px,
             rgba(251, 7, 217, 1) ${pos * 3 + 971}px,
-            rgba(255, 0, 0, 1) ${pos * 3 + 1070}px)`, userSelect: 'none', textAlign: 'center', marginLeft: '-535px', left: '50%', position: 'fixed', backgroundColor: "red", width: "1070px"
+            rgba(255, 0, 0, 1) ${pos * 3 + 1070}px)`, userSelect: 'none', textAlign: 'center', marginLeft: '-535px', left: '50%', position: 'fixed', width: "1070px"
         }}>
             {pos}
         </div>
