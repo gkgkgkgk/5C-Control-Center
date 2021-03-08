@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ColorPicker from './ColorPicker';
 
 const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
     const [lastClick, setLastClick] = useState(false);
@@ -25,7 +26,7 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
 
     return (
         <div onClick={updateClick}>
-            Main Screen
+            <ColorPicker />
         </div>
     )
 }
