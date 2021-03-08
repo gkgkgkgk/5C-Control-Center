@@ -1,11 +1,7 @@
 import React from 'react';
+import SleepScreen from './Components/SleepScreen'
+const App = ()=>(
+  <SleepScreen />
+)
 
-export class App extends React.PureComponent {
-  render() {
-    return (
-      <div>
-      </div>
-    );
-  }
-}
-
+export default App; 

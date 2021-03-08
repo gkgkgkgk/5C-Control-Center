@@ -1,7 +1,11 @@
-[
-    {
-        "Name": "Hallway light",
-        "id": "ebec90e43ec1822c0cztjy",
-        "key": "2da9dc915db01c4c"
-    }
-]
+{
+    "Devices": [
+        [
+            {
+                "Name": "Hallway light",
+                "id": "ebec90e43ec1822c0cztjy",
+                "key": "2da9dc915db01c4c"
+            }
+        ]
+    ]
+}

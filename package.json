@@ -48,6 +48,8 @@
   },
   "dependencies": {
     "react": "^16.8.5",
-    "react-dom": "^16.8.5"
+    "react-dom": "^16.8.5",
+    "react-toggle": "^4.1.1",
+    "tuyapi": "^6.1.5"
   }
 }
