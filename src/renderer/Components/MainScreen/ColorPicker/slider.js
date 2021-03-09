@@ -54,25 +54,29 @@ const Slider = ({ startColor = 179 }) => {
     }, [mousePos])
 
     return (
-        <div onMouseDown={mouseDown} style={{
-            borderRadius: change ? '5px' : '50%',
-            height: "100px",
-            background: change ? `repeating-linear-gradient(
-            90deg,
-            #ff0000 ${pos * 3 - 535}px,
-            #ff00ff ${pos * 3 - 356}px,
-            #0000ff ${pos * 3 - 178}px,
-            #00ffff ${pos * 3}px,
-            #00ff00 ${pos * 3 + 178}px,
-            #ffff00 ${pos * 3 + 356}px,
-            #ff0000 ${pos * 3 + 535}px` : color, userSelect: 'none',
-            textAlign: 'center',
-            marginLeft: change ? '-535px' : '-50px',
-            left: '50%', position: 'fixed',
-            width: change ? "1071px" : "100px",
-            transition: 'borderRadius 0.2s, width 0.2s, margin-left 0.2s, height 0.2s, background 0.2s ease-in'
-        }}>
-            {pos}
+        <div>
+            <div onMouseDown={mouseDown} style={{
+                margin: '20px',
+                borderRadius: change ? '5px' : '50%',
+                height: "100px",
+                background: change ? `repeating-linear-gradient(
+                90deg,
+                #ff0000 ${pos * 3 - 535}px,
+                #ff00ff ${pos * 3 - 356}px,
+                #0000ff ${pos * 3 - 178}px,
+                #00ffff ${pos * 3}px,
+                #00ff00 ${pos * 3 + 178}px,
+                #ffff00 ${pos * 3 + 356}px,
+                #ff0000 ${pos * 3 + 535}px` : color, userSelect: 'none',
+                textAlign: 'center',
+                marginLeft: change ? '-535px' : '-50px',
+                left: '50%', position: 'fixed',
+                width: change ? "1071px" : "100px",
+                transition: 'borderRadius 0.2s, width 0.2s, margin-left 0.2s, height 0.2s, background 0.2s ease-in'
+            }}>
+                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', top: '-25px', height: '3em', transform: 'rotate(180deg)', position: 'absolute' }}></img>
+                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', bottom: '-25px', height: '3em', position: 'absolute' }}></img>
+            </div>
         </div>
     )
 }
