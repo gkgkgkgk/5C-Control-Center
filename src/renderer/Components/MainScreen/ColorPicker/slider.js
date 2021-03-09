@@ -3,7 +3,7 @@ import gradient from 'tinygradient';
 
 const g = gradient(['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ff0000']).rgb(358);
 
-const Slider = ({ startColor = 179 }) => {
+const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
     const [mousePos, setMousePos] = useState({ x: null, y: null })
     const [startPos, setStartPos] = useState({ x: null, y: null })
     const [change, setChange] = useState(false);
@@ -39,7 +39,7 @@ const Slider = ({ startColor = 179 }) => {
     useEffect(() => {
         if (change) {
             let d = mousePos.x - startPos.x;
-            let p = lastPos + Math.round(d / 3);
+            let p = lastPos + Math.round(d / cpp);
 
             if (p > 357) {
                 p -= (358);
@@ -61,18 +61,18 @@ const Slider = ({ startColor = 179 }) => {
                 height: "100px",
                 background: change ? `repeating-linear-gradient(
                 90deg,
-                #ff0000 ${pos * 3 - 535}px,
-                #ff00ff ${pos * 3 - 356}px,
-                #0000ff ${pos * 3 - 178}px,
-                #00ffff ${pos * 3}px,
-                #00ff00 ${pos * 3 + 178}px,
-                #ffff00 ${pos * 3 + 356}px,
-                #ff0000 ${pos * 3 + 535}px` : color, userSelect: 'none',
+                #ff0000 ${pos * cpp - (cpp * 357 / 2)}px,
+                #ff00ff ${pos * cpp - (cpp * 357 / 3)}px,
+                #0000ff ${pos * cpp - (cpp * 357 / 6)}px,
+                #00ffff ${pos * cpp}px,
+                #00ff00 ${pos * cpp + (cpp * 357 / 6)}px,
+                #ffff00 ${pos * cpp + (cpp * 357 / 3)}px,
+                #ff0000 ${pos * cpp + (cpp * 357 / 2)}px` : color, userSelect: 'none',
                 textAlign: 'center',
-                marginLeft: change ? '-535px' : '-50px',
+                marginLeft: change ? `-${width / 2}px` : '-50px',
                 left: '50%', position: 'fixed',
-                width: change ? "1071px" : "100px",
-                transition: 'borderRadius 0.2s, width 2s, height 0.2s, background 0.2s ease-in'
+                width: change ? width : "100px",
+                transition: 'borderRadius 0.2s, width 0.2s, margin-left 0.2s, height 0.2s, background 0.2s ease-in'
             }}>
                 <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', top: '-25px', height: '3em', transform: 'rotate(180deg)', position: 'absolute', display: change ? 'block' : 'none' }}></img>
                 <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', bottom: '-25px', height: '3em', position: 'absolute', display: change ? 'block' : 'none' }}></img>
