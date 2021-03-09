@@ -9,7 +9,7 @@ const entryUrl = process.env.NODE_ENV === 'development'
 let window = null;
 
 app.on('ready', () => {
-  window = new BrowserWindow({ width: 1024, height: 600 });
+  window = new BrowserWindow({ width: 1024, height: 600 }); // 576x368
   window.loadURL(entryUrl);
   window.on('closed', () => window = null);
   //window.setMenu(null);

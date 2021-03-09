@@ -9,7 +9,10 @@ let callbacks = [];
 socket.on("update",(res)=>{
     // console.log(res); 
     // con.log(res);
-    callbacks.forEach(callback=>{callback(res)}); 
+    callbacks.forEach(callback=>{ 
+        if (typeof callback === "function") 
+            callback(res);
+    }); 
 })
 
 export const update = (callback)=>{

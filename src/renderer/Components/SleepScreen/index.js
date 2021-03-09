@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { remote } from 'electron';
-const con = remote.getGlobal("console");
 import { isAllLightsOff, toggleAllLights, update,removeUpdate } from '../../HelperFunctions/Lights/lights';
 import Toggle from './toggle.js';
 import Clock from './clock.js';
@@ -14,13 +12,13 @@ const SleepScreen = ({ toggleView }) => {
 
 
     const onUpdate = () => {
-        console.log(!state)
         toggleAllLights(!state);
         setState(!state);
     }
 
     useEffect(()=>{
         setId(update(exStateUpdate)); 
+        window.addEventListener("click",changeView);
         (async()=>{
             const data = await isAllLightsOff(); 
             setState(data.data)
@@ -31,32 +29,21 @@ const SleepScreen = ({ toggleView }) => {
     },[]); 
 
     const exStateUpdate=(res)=>{
-        // console.log(res)
         const val = res.reduce((acc,{on})=>{
-            // console.log(on);
-            // console.log(acc)
             return acc || on
         },false)
-        // console.log("outside");
-        // console.log(val); 
-        // console.log(state);
-
         setState(val); 
     }
 
     const changeView = ({ target }) => {
-
-        console.log(toggleRef.current);
-        console.log(target);
-        if (toggleRef.current != target) {
+        if (toggleRef.current != target)
             toggleView();
-        }
     }
 
 
     return (
-
-        <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }} onClick={changeView}>
+        // <Clock />
+        <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }}>
             <div style={{ display: 'flex', flexDirection: "column"}}>
                 <div style={{ height: '33%' }} />
                 <Clock />
@@ -66,6 +53,7 @@ const SleepScreen = ({ toggleView }) => {
                     style = {{textAlign:'center'}}
                     toggle={state}
                 />
+                <div style={{ height: '33%' }} />
 
             </div>
         </div>
