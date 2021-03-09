@@ -13,7 +13,7 @@ const Clock = ({ textSize = 7 }) => {
 
     const updateWeather = async ()=>{
         const w = await getWeather(); 
-        setWeather(w); 
+        setWeather(Math.round(((w.data.main.temp-273.15)*(1.8))+32)); 
         setTimeout(updateWeather, 10800000)
     }
     useEffect(() => {
