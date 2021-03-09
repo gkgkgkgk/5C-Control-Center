@@ -72,10 +72,10 @@ const Slider = ({ startColor = 179 }) => {
                 marginLeft: change ? '-535px' : '-50px',
                 left: '50%', position: 'fixed',
                 width: change ? "1071px" : "100px",
-                transition: 'borderRadius 0.2s, width 0.2s, margin-left 0.2s, height 0.2s, background 0.2s ease-in'
+                transition: 'borderRadius 0.2s, width 2s, height 0.2s, background 0.2s ease-in'
             }}>
-                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', top: '-25px', height: '3em', transform: 'rotate(180deg)', position: 'absolute' }}></img>
-                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', bottom: '-25px', height: '3em', position: 'absolute' }}></img>
+                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', top: '-25px', height: '3em', transform: 'rotate(180deg)', position: 'absolute', display: change ? 'block' : 'none' }}></img>
+                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', bottom: '-25px', height: '3em', position: 'absolute', display: change ? 'block' : 'none' }}></img>
             </div>
         </div>
     )
