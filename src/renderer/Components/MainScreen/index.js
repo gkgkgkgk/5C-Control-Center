@@ -25,7 +25,7 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
     }, [])
 
     return (
-        <div onClick={updateClick}>
+        <div onClick={updateClick} style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
             <ColorPicker />
         </div>
     )

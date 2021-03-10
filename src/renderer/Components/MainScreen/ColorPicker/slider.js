@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gradient from 'tinygradient';
+import Minislider from './minislider';
 
 const g = gradient(['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ff0000']).rgb(358);
 
@@ -31,6 +32,7 @@ const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
     }, []);
 
     const mouseDown = ev => {
+        ev.preventDefault();
         console.log(pos);
         setChange(true);
         setStartPos({ x: ev.clientX, y: ev.clientY });
@@ -54,11 +56,10 @@ const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
     }, [mousePos])
 
     return (
-        <div>
+        <div className='sliderbody' style={{ width: '100%', height: '100%' }}>
             <div onMouseDown={mouseDown} style={{
-                margin: '20px',
                 borderRadius: change ? '5px' : '50%',
-                height: "100px",
+                height: change ? "200px" : "180px",
                 background: change ? `repeating-linear-gradient(
                 90deg,
                 #ff0000 ${pos * cpp - (cpp * 357 / 2)}px,
@@ -69,15 +70,16 @@ const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
                 #ffff00 ${pos * cpp + (cpp * 357 / 3)}px,
                 #ff0000 ${pos * cpp + (cpp * 357 / 2)}px` : color, userSelect: 'none',
                 textAlign: 'center',
-                marginLeft: change ? `-${width / 2}px` : '-50px',
-                left: '50%', position: 'fixed',
-                width: change ? width : "100px",
+                position: 'fixed',
+                left: '50%',
+                marginLeft: change ? `-${width / 2}px` : '-90px',
+                width: change ? width : "180px", zIndex: 100,
                 transition: 'borderRadius 0.2s, width 0.2s, margin-left 0.2s, height 0.2s, background 0.2s ease-in'
             }}>
-                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', top: '-25px', height: '3em', transform: 'rotate(180deg)', position: 'absolute', display: change ? 'block' : 'none' }}></img>
-                <img src="../assets/svg/arrow.svg" style={{ marginLeft: '-1.5em', left: '50%', bottom: '-25px', height: '3em', position: 'absolute', display: change ? 'block' : 'none' }}></img>
-            </div>
-        </div>
+                <img src="../assets/svg/arrow.svg" style={{ pointerEvents: 'none', marginLeft: '-1.5em', left: '50%', top: '-25px', height: '3em', transform: 'rotate(180deg)', position: 'absolute', display: change ? 'block' : 'none' }}></img>
+                <img src="../assets/svg/arrow.svg" style={{ pointerEvents: 'none', marginLeft: '-1.5em', left: '50%', bottom: '-25px', height: '3em', position: 'absolute', display: change ? 'block' : 'none' }}></img>
+            </div >
+        </div >
     )
 }
 
