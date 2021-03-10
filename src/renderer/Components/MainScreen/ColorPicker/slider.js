@@ -58,6 +58,7 @@ const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
     return (
         <div className='sliderbody' style={{ width: '100%', height: '100%' }}>
             <div onMouseDown={mouseDown} style={{
+                boxShadow: '0 0 5px 5px rgba(0,0,0,0.3)',
                 borderRadius: change ? '5px' : '50%',
                 height: change ? "200px" : "180px",
                 background: change ? `repeating-linear-gradient(
