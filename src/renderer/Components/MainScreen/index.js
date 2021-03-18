@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Groups from './Groups';
 
 const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
     const [lastClick, setLastClick] = useState(false);
+
+    const [active,setActive] = useState([]); 
 
     const updateClick = () => {
         setLastClick(true);
@@ -25,7 +28,7 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
 
     return (
         <div onClick={updateClick}>
-            Main Screen
+            <Groups active={active} setActive={setActive}/>
         </div>
     )
 }

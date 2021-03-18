@@ -1,0 +1,56 @@
+{
+    "groups":[
+        {
+            "Name": "Hallway Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Living Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        },
+        {
+            "Name": "Kitchen Room",
+            "members": ["Hallway light"]
+        }
+    ]
+}
