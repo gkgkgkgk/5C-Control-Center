@@ -3,7 +3,7 @@ import Groups from './Groups';
 
 const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
     const [lastClick, setLastClick] = useState(false);
-
+    const [isGroup,setIsGroup]= useState(true);
     const [active,setActive] = useState([]); 
 
     const updateClick = () => {
@@ -27,8 +27,8 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
     }, [])
 
     return (
-        <div onClick={updateClick}>
-            <Groups active={active} setActive={setActive}/>
+        <div onClick={updateClick} style = {{width: "100%", height: "100%"}}>
+            <Groups active={active} setActive={setActive} isGroup={isGroup} setActive={setActive}/>
         </div>
     )
 }

@@ -7,8 +7,6 @@ const socket = io("http://localhost:3000/");
 let callbacks = []; 
 
 socket.on("update",(res)=>{
-    // console.log(res); 
-    // con.log(res);
     callbacks.forEach(callback=>{ 
         if (typeof callback === "function") 
             callback(res);
@@ -40,4 +38,9 @@ export const toggleAllLights = (value)=>{
         axios.get("http://localhost:3000/turnOffAllLights"); 
     }
     return true; 
+}
+
+export const changeLights = async (lights, isGroup, newState)=>{
+    console.log("hello"); 
+    const res = await axios.post("http://localhost:3000/changeLights", {newState,lights,isGroup}); 
 }
