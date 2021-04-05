@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ColorPicker from './ColorPicker';
 import Groups from './Groups';
 
 const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
@@ -27,9 +28,11 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
     }, [])
 
     return (
-        <div onClick={updateClick} style = {{width: "100%", height: "100%"}}>
+        //filter: 'blur(5px)'
+        <div onClick={updateClick} style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
+            <ColorPicker />
             <Groups active={active} setActive={setActive} isGroup={isGroup} setActive={setActive}/>
-        </div>
+      </div>
     )
 }
 
