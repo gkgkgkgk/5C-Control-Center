@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import {getWeather} from '../../HelperFunctions/weather'; 
 
 
 const Clock = ({ textSize = 7 }) => {
     const [time, setTime] = useState(new Date().toLocaleTimeString());
-    const [timeoutV, setTimeoutV] = useState(null);
+    const [weather,setWeather] = useState(5); 
+
     const updateTime = () => {
         setTime(new Date().toLocaleTimeString());
-        setTimeoutV(setTimeout(updateTime, 1000));
+        setTimeout(updateTime, 1000)
+    }
+
+    const updateWeather = async ()=>{
+        const w = await getWeather(); 
+        setWeather(Math.round(((w.data.main.temp-273.15)*(1.8))+32)); 
+        setTimeout(updateWeather, 10800000)
     }
     useEffect(() => {
 
-        setTimeoutV(setTimeout(updateTime, 1000));
+        setTimeout(updateTime, 1000);
+        updateWeather(); 
+        
         return function cleanup() {
             const killId = setTimeout(() => {
                 for (let i = killId; i > 0; i--) clearInterval(i)
@@ -20,8 +30,10 @@ const Clock = ({ textSize = 7 }) => {
     }, [])
 
     return (
-        <div style={{ color: 'white', fontSize: `${textSize}em`, }}>
-            {time}
+        <div style={{ color: 'white', textAlign:'center'}}>
+            <div style ={{fontSize: `${textSize}em`}}>{time} </div>
+            <br />
+            It is {weather} degrees in New York City
         </div>
     )
 }

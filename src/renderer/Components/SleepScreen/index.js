@@ -1,35 +1,49 @@
-import React, { useState, useRef } from 'react';
-import { remote } from 'electron';
-const con = remote.getGlobal("console");
-import { isAllLightsOff, toggleAllLights } from '../../HelperFunctions/Lights/lights';
+import React, { useState, useRef, useEffect } from 'react';
+import { isAllLightsOff, toggleAllLights, update,removeUpdate } from '../../HelperFunctions/Lights/lights';
 import Toggle from './toggle.js';
 import Clock from './clock.js';
 
 
 const SleepScreen = ({ toggleView }) => {
 
-    const [state, setState] = useState(isAllLightsOff());
+    const [state, setState] = useState(false);
+    const [id,setId] = useState(null);  
     const toggleRef = useRef(null);
+
+
     const onUpdate = () => {
         toggleAllLights(!state);
         setState(!state);
     }
 
-    const changeView = ({ target }) => {
-
-        console.log(toggleRef.current);
-        console.log(target);
-        if (toggleRef.current != target) {
-            toggleView();
+    useEffect(()=>{
+        setId(update(exStateUpdate)); 
+        window.addEventListener("click",changeView);
+        (async()=>{
+            const data = await isAllLightsOff(); 
+            setState(data.data)
+        })()
+        return function cleanup(){
+            removeUpdate(id); 
         }
+    },[]); 
+
+    const exStateUpdate=(res)=>{
+        const val = res.reduce((acc,{on})=>{
+            return acc || on
+        },false)
+        setState(val); 
+    }
+
+    const changeView = ({ target }) => {
+        if (toggleRef.current != target)
+            toggleView();
     }
 
 
-
-
     return (
-
-        <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }} onClick={changeView}>
+        // <Clock />
+        <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }}>
             <div style={{ display: 'flex', flexDirection: "column"}}>
                 <div style={{ height: '33%' }} />
                 <Clock />
@@ -37,7 +51,9 @@ const SleepScreen = ({ toggleView }) => {
                     refrence={toggleRef}
                     onChange={onUpdate}
                     style = {{textAlign:'center'}}
+                    toggle={state}
                 />
+                <div style={{ height: '33%' }} />
 
             </div>
         </div>
