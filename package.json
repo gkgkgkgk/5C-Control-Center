@@ -51,6 +51,7 @@
   "dependencies": {
     "@babel/runtime": "^7.13.9",
     "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",

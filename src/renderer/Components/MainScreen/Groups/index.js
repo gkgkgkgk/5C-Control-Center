@@ -4,8 +4,8 @@ import ToggleGroup from "./toggleGroup";
 const devices = require("../../../../../env/devices.json").device_keys.length % 2 !== 0 ? [...(require("../../../../../env/devices.json").device_keys), {Name:"",id:null,key:null}]:require("../../../../../env/devices.json").device_keys; 
 const groups = require("../../../../../env/groups.json").groups % 2 !== 0 ? [...(require("../../../../../env/groups.json").groups),{Name:"",members:[]}]:require("../../../../../env/groups.json").groups; 
 
-const Groups = ({active,setActive}) => {
-    const [isGroup,setIsGroup]= useState(true);
+const Groups = ({active,setActive,isGroup,setIsGroup}) => {
+    
     const [scrolling,setScrolling] = useState(false); 
     const [lastPos,setLastPos] = useState(0); 
     const scrollBarTop = useRef(null); 
