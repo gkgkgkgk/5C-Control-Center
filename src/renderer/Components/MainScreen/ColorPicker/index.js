@@ -8,7 +8,7 @@ const ColorPicker = () => {
 
 
     return (
-        <div style={{ display: 'flex', flexDirection: "column", height: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: "column", height: '75%' }}>
 
             <div style={{ height: '40%', display: 'flex', flexDirection: "row", justifyContent: 'center' }}>
                 <div style={{ marginTop: '20px', width: '35%' }}></div>
@@ -26,7 +26,6 @@ const ColorPicker = () => {
             <div style={{ height: '20%', display: 'flex', flexDirection: "row", justifyContent: 'center' }}>
                 <Modetoggle></Modetoggle>
             </div>
-            <div style={{ marginTop: '20px', height: '40%', borderStyle: 'solid' }}></div>
         </div>
     )
 }
