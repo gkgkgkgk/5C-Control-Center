@@ -1,56 +1,36 @@
 {
-    "groups":[
+    "groups": [
         {
-            "Name": "Hallway Room",
-            "members": ["Hallway light"]
+            "Name": "Hallway",
+            "members": [
+                "Hallway light"
+            ]
         },
         {
             "Name": "Living Room",
-            "members": ["Hallway light"]
+            "members": [
+                "Living Room 1",
+                "Living Room 2",
+                "Living Room 3"
+            ]
         },
         {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
+            "Name": "Kitchen",
+            "members": [
+                "Kitchen bulb 1",
+                "Kitchen bulb 2"
+            ]
         },
         {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
-        },
-        {
-            "Name": "Kitchen Room",
-            "members": ["Hallway light"]
+            "Name": "All",
+            "members": [
+                "Hallway light",
+                "Living Room 1",
+                "Living Room 2",
+                "Living Room 3",
+                "Kitchen bulb 1",
+                "Kitchen bulb 2"
+            ]
         }
     ]
 }
