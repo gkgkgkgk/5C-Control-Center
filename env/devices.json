@@ -1,11 +1,6 @@
 {
     "device_keys": [
         {
-            "Name": "Hallway light",
-            "id": "ebec90e43ec1822c0cztjy",
-            "key": "2da9dc915db01c4c"
-        },
-        {
             "Name": "Kitchen bulb 1",
             "id": "eb81a1f149c13b75e9nfmv",
             "key": "2da9dc915db01c4c"

@@ -15,30 +15,48 @@ const { groups } = require("../env/groups.json");
 
 app.use(cors()); // change this to not allow everyone eventually 
 app.use(bodyParser.json());
-let supressData = false; 
+let supressData = false;
+
+let count = 0;
 
 const devices = device_keys.map(({ Name, id, key }) => {
-    let count = 0;
     const device = new TuyAPI({ id, key });
-    device.find().then(() => {
-        device.connect();
-    });
-
-    device.on("connected", () => {
-        count++;
-        device.on("data", onData);
-        device.on("disconnected", () => { console.log("I ran the disc") })
-        device.on("error", (e) => { console.log("I ran the error"); console.log(e) })
-        if (count === devices.length)
-            http.listen(port, () => console.log(`listening on port ${port}`));
-    });
+    console.log("connecting " + Name);
 
     return ({ Name, device })
 });
 
+(function () {
+    console.log("connecting devices");
+
+    devices.forEach(async d => {
+        await d.device.find().then(() => {
+            console.log("Found " + d.Name);
+            d.device.connect();
+            console.log(d.Name);
+        });
+
+        console.log(count);
+
+        await d.device.on("connected", () => {
+            console.log("Connected " + d.Name)
+            count++;
+            //device.on("data", onData);
+            d.device.on("disconnected", () => { console.log("I ran the disc") })
+            d.device.on("error", (e) => { console.log("I ran the error"); console.log(e) })
+
+            console.log(devices.length + " " + count);
+            if (count === devices.length - 1) {
+                http.listen(port, () => console.log(`listening on port ${port}`));
+                console.log(devices);
+            }
+        });
+    });
+})();
+
 
 const onData = async data => {
-    if (supressData) return; 
+    if (supressData) return;
 
     const res = devices.map(async ({ device, Name }) => {
 
@@ -56,18 +74,21 @@ const onData = async data => {
 }
 
 app.get("/turnOffAllLights", (req, res) => {
-    supressData = true; 
-    devices.forEach(({ device },i) => {
-        device.set({ dps: 20, set: false }).then(()=> {if(i === devices.length-1) supressData = false;});
+    console.log(devices);
+    console.log("turning off all lights");
+    supressData = true;
+    devices.forEach(({ device }, i) => {
+        device.set({ dps: 20, set: false }).then(() => { if (i === devices.length - 1) supressData = false; });
     });
-    
-    
+
+
     res.send(true);
 });
 app.get("/turnOnAllLights", (req, res) => {
-    supressData = true; 
-    devices.forEach(({ device },i) => {
-        device.set({ dps: 20, set: true }).then(()=> {if(i === devices.length-1) supressData = false;});
+    console.log("turning on all lights");
+    supressData = true;
+    devices.forEach(({ device }, i) => {
+        device.set({ dps: 20, set: true }).then(() => { if (i === devices.length - 1) supressData = false; });
     })
     res.send(true);
 });
@@ -81,13 +102,17 @@ app.get("/isOneLightOn", async (req, res) => {
     res.send((await val));
 })
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+
 app.post("/changeLights", async (req, res) => {
     const isGroup = req.body.isGroup;
     const lights = isGroup ? groups.filter(({ Name }) => req.body.lights.includes(Name)).reduce((acc, { members }) => ([...acc, ...members.filter(name => !acc.includes(name))]), []) : req.body.lights;
     const newState = req.body.newState;
     const devicesToUpdate = devices.filter(({ Name }) => lights.includes(Name));
-    supressData = true; 
-    devicesToUpdate.forEach({device},i => {
+    supressData = true;
+    devicesToUpdate.forEach({ device }, i => {
         if (newState === "white") {
             // need to check for warmth and other parameters in the setting and newState
             device.set({
