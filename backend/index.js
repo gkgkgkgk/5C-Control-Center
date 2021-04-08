@@ -26,7 +26,7 @@ const devices = device_keys.map(({ Name, id, key }) => {
     return ({ Name, device })
 });
 
-(function () {
+(() => {
     console.log("connecting devices");
 
     devices.forEach(async d => {
@@ -39,18 +39,20 @@ const devices = device_keys.map(({ Name, id, key }) => {
         console.log(count);
 
         await d.device.on("connected", () => {
-            console.log("Connected " + d.Name)
+            // console.log("Connected " + d.Name)
             count++;
-            //device.on("data", onData);
-            d.device.on("disconnected", () => { console.log("I ran the disc") })
-            d.device.on("error", (e) => { console.log("I ran the error"); console.log(e) })
+            d.device.on("disconnected", () => { console.log("I ran the disc"); })
+            d.device.on("error", (e) => { console.log("I ran the error"); console.log(e); })
+        });
 
-            console.log(devices.length + " " + count);
+        console.log(devices.length + " " + count);
             if (count === devices.length - 1) {
                 http.listen(port, () => console.log(`listening on port ${port}`));
                 console.log(devices);
+                // devices.forEach (({Name, device}) => {
+                //     device.on("data", onData);
+                // });
             }
-        });
     });
 })();
 
@@ -63,9 +65,9 @@ const onData = async data => {
         const { dps } = await device.get({ schema: true });
         return ({
             Name,
-            on: dps["20"],
-            mode: dps["21"],
-            color: dps["24"]
+            on: dps?.["20"],
+            mode: dps?.["21"],
+            color: dps?.["24"]
         })
 
     })
@@ -87,7 +89,8 @@ app.get("/turnOffAllLights", (req, res) => {
 app.get("/turnOnAllLights", (req, res) => {
     console.log("turning on all lights");
     supressData = true;
-    devices.forEach(({ device }, i) => {
+    devices.forEach(({ device,Name }, i) => {
+        console.log(`turning on ${Name}`);
         device.set({ dps: 20, set: true }).then(() => { if (i === devices.length - 1) supressData = false; });
     })
     res.send(true);

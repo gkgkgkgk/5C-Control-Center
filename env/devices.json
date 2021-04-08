@@ -1,34 +1,34 @@
 {
     "device_keys": [
         {
-            "Name": "Kitchen bulb 1",
-            "id": "eb81a1f149c13b75e9nfmv",
-            "key": "2da9dc915db01c4c"
-        },
-        {
-            "Name": "Kitchen bulb 2",
-            "id": "eb4ab982f7c3fa0f67vjln",
-            "key": "2da9dc915db01c4c"
-        },
-        {
-            "Name": "Kitchen bulb 1",
+            "Name": "Hallway light",
             "id": "ebec90e43ec1822c0cztjy",
             "key": "2da9dc915db01c4c"
         },
         {
+            "Name": "Kitchen bulb 1",
+            "id": "eb81a1f149c13b75e9nfmv",
+            "key": "173118532463880c"
+        },
+        {
+            "Name": "Kitchen bulb 2",
+            "id": "eb4ab982f7c3fa0f67vjln",
+            "key": "44bc687d218d3d80"
+        },
+        {
             "Name": "Living Room 1",
             "id": "ebf184da085cadfaa0inlg",
-            "key": "2da9dc915db01c4c"
+            "key": "d7ed733e32b6e750"
         },
         {
             "Name": "Living Room 2",
             "id": "eb19c9e5ea51d4a828qifk",
-            "key": "2da9dc915db01c4c"
+            "key": "c924b2a3f03ccfc8"
         },
         {
             "Name": "Living Room 3",
             "id": "ebdd8af82f909db0eafntn",
-            "key": "2da9dc915db01c4c"
+            "key": "b0720fd11336561d"
         }
     ]
 }
