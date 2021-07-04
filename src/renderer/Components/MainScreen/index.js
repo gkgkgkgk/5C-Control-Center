@@ -2,17 +2,23 @@ import React, { useState, useEffect } from 'react';
 import ColorPicker from './ColorPicker';
 import Groups from './Groups';
 
-const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
-    const [lastClick, setLastClick] = useState(false);
+const MainScreen = ({ toggleView, timeoutTime = 10000 }) => {
+    // const [lastClick, setLastClick] = useState(false);
+    let lastClick = false; 
     const [isGroup,setIsGroup]= useState(true);
     const [active,setActive] = useState([]); 
 
     const updateClick = () => {
-        setLastClick(true);
+        console.log("click has run")
+        // setLastClick(true);
+        lastClick = true;
+        console.log(lastClick); 
     }
     const timeoutFunction = () => {
+        console.log(lastClick); 
         if (lastClick) {
-            setLastClick(false);
+            // setLastClick(false);
+            lastClick = false;
             setTimeout(timeoutFunction, timeoutTime)
         } else
             toggleView();
@@ -20,6 +26,7 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
 
     useEffect(() => {
         setTimeout(timeoutFunction, timeoutTime);
+        window.addEventListener("click",updateClick);
         return function cleanup() {
             const killId = setTimeout(() => {
                 for (let i = killId; i > 0; i--) clearInterval(i)
@@ -29,9 +36,9 @@ const MainScreen = ({ toggleView, timeoutTime = 100000 }) => {
 
     return (
         //filter: 'blur(5px)'
-        <div onClick={updateClick} style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
+        <div  style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
             <ColorPicker />
-            <Groups active={active} setActive={setActive} isGroup={isGroup} setActive={setActive}/>
+            <Groups active={active} isGroup={isGroup} setActive={setActive} setIsGroup={setIsGroup}/>
       </div>
     )
 }
