@@ -17,6 +17,7 @@ const SleepScreen = ({ toggleView }) => {
     }
 
     useEffect(()=>{
+        console.log("use effect for sleep screen is running")
         setId(update(exStateUpdate)); 
         window.addEventListener("click",changeView);
         (async()=>{
@@ -28,11 +29,9 @@ const SleepScreen = ({ toggleView }) => {
         }
     },[]); 
 
-    const exStateUpdate=(res)=>{
-        const val = res.reduce((acc,{on})=>{
-            return acc || on
-        },false)
-        setState(val); 
+    const exStateUpdate= async res=>{
+        const data = await isAllLightsOff(); 
+        setState(data.data)
     }
 
     const changeView = ({ target }) => {

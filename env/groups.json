@@ -17,8 +17,8 @@
         {
             "Name": "Kitchen",
             "members": [
-                "Kitchen bulb 1",
-                "Kitchen bulb 2"
+                "Kitchen 1",
+                "Kitchen 2"
             ]
         },
         {
@@ -28,8 +28,8 @@
                 "Living Room 1",
                 "Living Room 2",
                 "Living Room 3",
-                "Kitchen bulb 1",
-                "Kitchen bulb 2"
+                "Kitchen 1",
+                "Kitchen 2"
             ]
         }
     ]

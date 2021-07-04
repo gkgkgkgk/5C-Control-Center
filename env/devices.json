@@ -3,37 +3,32 @@
         {
             "Name": "Hallway light",
             "id": "ebec90e43ec1822c0cztjy",
-            "key": "2da9dc915db01c4c"
+            "key": "7d4d32f519296eb4"
         },
         {
-            "Name": "Kitchen bulb 1",
+            "Name": "Kitchen 1",
             "id": "eb81a1f149c13b75e9nfmv",
-            "key": "2da9dc915db01c4c"
+            "key": "d116f2b62008cc19"
         },
         {
-            "Name": "Kitchen bulb 2",
+            "Name": "Kitchen 2",
             "id": "eb4ab982f7c3fa0f67vjln",
-            "key": "2da9dc915db01c4c"
-        },
-        {
-            "Name": "Kitchen bulb 1",
-            "id": "ebec90e43ec1822c0cztjy",
-            "key": "2da9dc915db01c4c"
+            "key": "2a7d33994be67068"
         },
         {
             "Name": "Living Room 1",
             "id": "ebf184da085cadfaa0inlg",
-            "key": "2da9dc915db01c4c"
+            "key": "24ac1d0a02e1ca1f"
         },
         {
             "Name": "Living Room 2",
             "id": "eb19c9e5ea51d4a828qifk",
-            "key": "2da9dc915db01c4c"
+            "key": "38e3dbc3533ef7a4"
         },
         {
             "Name": "Living Room 3",
             "id": "ebdd8af82f909db0eafntn",
-            "key": "2da9dc915db01c4c"
+            "key": "87192478c9be47e0"
         }
     ]
 }

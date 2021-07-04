@@ -3,17 +3,22 @@ const con = remote.getGlobal("console");
 import axios from 'axios'; 
 import {io} from 'socket.io-client'; 
 import {v4 as uuidv4} from 'uuid';
+import { call } from 'file-loader';
 const socket = io("http://localhost:3000/"); 
 let callbacks = []; 
 
 socket.on("update",(res)=>{
-    callbacks.forEach(callback=>{ 
-        if (typeof callback === "function") 
-            callback(res);
+    console.log("update recived")
+    console.log(callbacks)
+    callbacks.forEach(({callback})=>{ 
+        console.log(callback)
+        // if (typeof callback === "function") 
+        callback(res);
     }); 
 })
 
 export const update = (callback)=>{
+    console.log("funtion added");
     callbacks.push({
         id: uuidv4(),
         callback
