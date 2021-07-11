@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import ColorPicker from './ColorPicker';
 import Groups from './Groups';
+import { changeLights } from '../../HelperFunctions/Lights/lights';
 
 const MainScreen = ({ toggleView, timeoutTime = 10000 }) => {
     // const [lastClick, setLastClick] = useState(false);
-    let lastClick = false; 
-    const [isGroup,setIsGroup]= useState(true);
-    const [active,setActive] = useState([]); 
+    let lastClick = false;
+    const [isGroup, setIsGroup] = useState(true);
+    const [active, setActive] = useState([]);
+    const [hexColor, setHexColor] = useState('001');
+    const [hexSat, setHexSat] = useState('3e8');
+    const [hexBrightness, setHexBrightness] = useState('3e8');
 
     const updateClick = () => {
         console.log("click has run")
         // setLastClick(true);
         lastClick = true;
-        console.log(lastClick); 
+        console.log(lastClick);
     }
     const timeoutFunction = () => {
-        console.log(lastClick); 
+        console.log(lastClick);
         if (lastClick) {
             // setLastClick(false);
             lastClick = false;
@@ -26,7 +30,7 @@ const MainScreen = ({ toggleView, timeoutTime = 10000 }) => {
 
     useEffect(() => {
         setTimeout(timeoutFunction, timeoutTime);
-        window.addEventListener("click",updateClick);
+        window.addEventListener("click", updateClick);
         return function cleanup() {
             const killId = setTimeout(() => {
                 for (let i = killId; i > 0; i--) clearInterval(i)
@@ -34,12 +38,21 @@ const MainScreen = ({ toggleView, timeoutTime = 10000 }) => {
         }
     }, [])
 
+    useEffect(() => {
+        changeLights(["Hallway light", "Living Room 1"], false, hexColor, hexSat, hexBrightness);
+    }, [hexColor, hexSat, hexBrightness])
+
+    useEffect(() => {
+
+    }, [active, isGroup])
+
+
     return (
         //filter: 'blur(5px)'
-        <div  style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
-            <ColorPicker />
-            <Groups active={active} isGroup={isGroup} setActive={setActive} setIsGroup={setIsGroup}/>
-      </div>
+        <div style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
+            <ColorPicker colorVars={[hexColor, setHexColor]} satVars={[hexSat, setHexSat]} brightnessVars={[hexBrightness, setHexBrightness]} />
+            <Groups active={active} isGroup={isGroup} setActive={setActive} setIsGroup={setIsGroup} />
+        </div>
     )
 }
 

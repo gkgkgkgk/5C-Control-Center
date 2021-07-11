@@ -45,7 +45,9 @@ export const toggleAllLights = (value) => {
     return true;
 }
 
-export const changeLights = async (lights, isGroup, newState) => {
-    con.log({ newState, lights, isGroup });
+export const changeLights = async (lights, isGroup, color, sat, brightness) => {
+    con.log({ color, sat, brightness, lights, isGroup });
+    let newState = `0${color}0${sat}0${brightness}`;
+
     const res = await axios.post("http://localhost:3000/changeLights", { newState, lights, isGroup });
 }

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gradient from 'tinygradient';
-import { changeLights } from '../../../HelperFunctions/Lights/lights';
-
-import Minislider from './minislider';
 
 const g = gradient(['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ff0000']).rgb(358);
 
-const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
+const Slider = ({ hexColor, setHexColor, startColor = 179, width = 714, cpp = 2 }) => {
+    //startColor = g[parseInt('0x' + hexColor, 16)];
+
     const [mousePos, setMousePos] = useState({ x: null, y: null })
     const [startPos, setStartPos] = useState({ x: null, y: null })
     const [change, setChange] = useState(false);
@@ -24,7 +23,7 @@ const Slider = ({ startColor = 179, width = 714, cpp = 2 }) => {
         console.log(posRef.current);
         setLastPos(posRef.current);
         setChange(false);
-        changeLights(["Hallway light", "Living Room 1"], false, `0${posRef.current.toString(16).padStart(3, '0')}03e803e8`);
+        setHexColor(posRef.current.toString(16).padStart(3, '0'));
     };
 
     useEffect(() => {

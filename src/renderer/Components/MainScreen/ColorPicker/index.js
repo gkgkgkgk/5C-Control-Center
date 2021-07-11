@@ -3,11 +3,7 @@ import MiniSlider from './minislider';
 import Modetoggle from './modetoggle';
 import Slider from './slider';
 
-const changeLights = (color, brightness, saturation) => {
-
-}
-
-const ColorPicker = () => {
+const ColorPicker = ({ change, colorVars, satVars, brightnessVars }) => {
 
 
     return (
@@ -16,20 +12,20 @@ const ColorPicker = () => {
             <div style={{ height: '40%', display: 'flex', flexDirection: "row", justifyContent: 'center' }}>
                 <div style={{ marginTop: '20px', width: '35%' }}></div>
                 <div style={{ marginTop: '20px', width: '15%', textAlign: 'center' }}>
-                    <MiniSlider change={changeLights}></MiniSlider>
+                    <MiniSlider value={satVars[0]} setValue={satVars[1]}></MiniSlider>
                 </div>
                 <div style={{ marginTop: '20px', width: '20%' }}>
-                    <Slider change={changeLights}></Slider>
+                    <Slider color={colorVars[0]} setColor={colorVars[1]}></Slider>
                 </div>
                 <div style={{ marginTop: '20px', width: '15%', textAlign: 'center' }}>
-                    <MiniSlider change={changeLights}></MiniSlider>
+                    <MiniSlider value={brightnessVars[0]} setValue={brightnessVars[1]}></MiniSlider>
                 </div>
                 <div style={{ marginTop: '20px', width: '35%' }}></div>
             </div >
             <div style={{ height: '20%', display: 'flex', flexDirection: "row", justifyContent: 'center' }}>
                 <Modetoggle></Modetoggle>
             </div>
-        </div>
+        </div >
     )
 }
 
