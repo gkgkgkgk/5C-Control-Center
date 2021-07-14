@@ -56,7 +56,7 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
         scrollingRef.current = false;
     }
     const onMouseMove = e => {
-        console.log(scrollingRef.current)
+        // console.log(scrollingRef.current)
         if (scrollingRef.current) {
             scrollBarTop.current.scrollBy(-1 * (e.clientX - lastPosRef.current), 0)
             scrollBarBot.current.scrollBy(-1 * (e.clientX - lastPosRef.current), 0)

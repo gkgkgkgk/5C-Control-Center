@@ -3,7 +3,7 @@ import gradient from 'tinygradient';
 
 const g = gradient(['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ff0000']).rgb(358);
 
-const Slider = ({ hexColor, setHexColor, startColor = 179, width = 714, cpp = 2 }) => {
+const Slider = ({ hexColor, setHexColor, updateLights, startColor = 179, width = 714, cpp = 2 }) => {
     //startColor = g[parseInt('0x' + hexColor, 16)];
 
     const [mousePos, setMousePos] = useState({ x: null, y: null })
@@ -20,22 +20,23 @@ const Slider = ({ hexColor, setHexColor, startColor = 179, width = 714, cpp = 2 
     };
 
     const updateMouseUp = ev => {
-        console.log(posRef.current);
+        // console.log(posRef.current);
         setLastPos(posRef.current);
         setChange(false);
-        setHexColor(posRef.current.toString(16).padStart(3, '0'));
+        //setHexColor(posRef.current.toString(16).padStart(3, '0'));
+        updateLights({ type: "color", value: posRef.current.toString(16).padStart(3, '0') });
     };
 
     useEffect(() => {
         window.addEventListener("mousemove", updateMousePos);
-        window.addEventListener("mouseup", updateMouseUp);
+        // window.addEventListener("mouseup", updateMouseUp);
 
-        return () => { window.removeEventListener("mousemove", updateMousePos); window.removeEventListener("mouseup", updateMouseUp); };
+        return () => { window.removeEventListener("mousemove", updateMousePos); /*window.removeEventListener("mouseup", updateMouseUp);*/ };
     }, []);
 
     const mouseDown = ev => {
         ev.preventDefault();
-        console.log(pos);
+        // console.log(pos);
         setChange(true);
         setStartPos({ x: ev.clientX, y: ev.clientY });
     }
@@ -59,7 +60,7 @@ const Slider = ({ hexColor, setHexColor, startColor = 179, width = 714, cpp = 2 
 
     return (
         <div className='sliderbody' style={{ width: '100%', height: '100%' }}>
-            <div onMouseDown={mouseDown} style={{
+            <div onMouseDown={mouseDown} onMouseUp={updateMouseUp} style={{
                 boxShadow: '0 0 5px 5px rgba(0,0,0,0.3)',
                 borderRadius: change ? '5px' : '50%',
                 height: change ? "200px" : "180px",

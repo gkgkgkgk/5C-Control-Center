@@ -8,17 +8,17 @@ const socket = io("http://localhost:3000/");
 let callbacks = [];
 
 socket.on("update", (res) => {
-    console.log("update recived")
-    console.log(callbacks)
+    // console.log("update recived")
+    // console.log(callbacks)
     callbacks.forEach(({ callback }) => {
-        console.log(callback)
+        // console.log(callback)
         // if (typeof callback === "function") 
         callback(res);
     });
 })
 
 export const update = (callback) => {
-    console.log("funtion added");
+    // console.log("funtion added");
     callbacks.push({
         id: uuidv4(),
         callback

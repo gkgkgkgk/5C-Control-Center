@@ -76,6 +76,7 @@ const onData = ({ dps: data }, Name, device) => {
     const newStatus = makeStatus(data);
     // // console.log(newStatus); 
     connectedDevices = connectedDevices.map(({ Name: currentName, device: currentDevice, status }) => Name !== currentName ? { Name: currentName, device: currentDevice, status } : { Name, device, status: newStatus })
+    console.log("running onData");
     io.emit("update", { Name, ...newStatus });
 }
 
