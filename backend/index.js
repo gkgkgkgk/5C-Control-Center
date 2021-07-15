@@ -1,4 +1,5 @@
-const app = require("express")();
+const express = require('express')
+const app = express();
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const io = require("socket.io")(http, {
@@ -9,10 +10,11 @@ const io = require("socket.io")(http, {
 });
 const TuyAPI = require("tuyapi");
 const cors = require("cors");
-const port = process.env.PORT == undefined ? 3000 : process.env.PORT
+const port = process.env.PORT == undefined ? 8080 : process.env.PORT
 const { device_keys } = require("../env/devices.json");
 const { groups } = require("../env/groups.json");
 
+app.use(express.static(__dirname + '/build'));
 app.use(cors()); // change this to not allow everyone eventually 
 app.use(bodyParser.json());
 
@@ -79,6 +81,10 @@ const onData = ({ dps: data }, Name, device) => {
     console.log("running onData");
     io.emit("update", { Name, ...newStatus });
 }
+
+app.get('/', (req, res)=> {
+    res.sendFile(__dirname + '/build/index.html');
+})
 
 
 app.get("/turnOffAllLights", async (req, res) => {

@@ -1,0 +1,36 @@
+{
+    "groups": [
+        {
+            "Name": "Hallway",
+            "members": [
+                "Hallway light"
+            ]
+        },
+        {
+            "Name": "Living Room",
+            "members": [
+                "Living Room 1",
+                "Living Room 2",
+                "Living Room 3"
+            ]
+        },
+        {
+            "Name": "Kitchen",
+            "members": [
+                "Kitchen 1",
+                "Kitchen 2"
+            ]
+        },
+        {
+            "Name": "All",
+            "members": [
+                "Hallway light",
+                "Living Room 1",
+                "Living Room 2",
+                "Living Room 3",
+                "Kitchen 1",
+                "Kitchen 2"
+            ]
+        }
+    ]
+}

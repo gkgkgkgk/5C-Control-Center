@@ -1,0 +1,29 @@
+{
+    "device_keys": [
+        {
+            "Name": "Hallway light",
+            "id": "ebec90e43ec1822c0cztjy",
+            "key": "7d4d32f519296eb4"
+        },
+        {
+            "Name": "Kitchen 1",
+            "id": "eb81a1f149c13b75e9nfmv",
+            "key": "d116f2b62008cc19"
+        },
+        {
+            "Name": "Living Room 1",
+            "id": "ebf184da085cadfaa0inlg",
+            "key": "24ac1d0a02e1ca1f"
+        },
+        {
+            "Name": "Living Room 2",
+            "id": "eb19c9e5ea51d4a828qifk",
+            "key": "38e3dbc3533ef7a4"
+        },
+        {
+            "Name": "Living Room 3",
+            "id": "ebdd8af82f909db0eafntn",
+            "key": "87192478c9be47e0"
+        }
+    ]
+}
