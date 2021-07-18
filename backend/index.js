@@ -37,6 +37,7 @@ const getDevices = async () => {
         device.on('disconnected', () => onDisconnected(Name, device));
         device.on('error', e => onError(e, Name, device));
         device.on('data', (data) => onData(data, Name, device));
+        device.on('dp-refresh', (data) => onData(data, Name, device));
         console.log("connected" + Name)
         return ({ Name, device, status: makeStatus((await device.get({ schema: true })).dps) })
     });
@@ -53,6 +54,7 @@ const connectAllDisconnected = async () => {
         device.on('disconnected', () => onDisconnected(Name, device));
         device.on('error', e => onError(e, Name, device));
         device.on('data', data => onData(data, Name, device));
+        device.on('dp-refresh', (data) => onData(data, Name, device));
         console.log("connected" + Name);
         return ({ Name, device, status: makeStatus((await device.get({ schema: true })).dps) });
     });
