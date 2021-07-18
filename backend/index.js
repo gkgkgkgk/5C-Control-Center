@@ -95,7 +95,6 @@ app.get("/turnOffAllLights", async (req, res) => {
         });
     }
 
-    console.log(connectedDevices);
     console.log("turning off all lights");
     doTurnOff();
     if (disconnectedDevices.length > 0) {
