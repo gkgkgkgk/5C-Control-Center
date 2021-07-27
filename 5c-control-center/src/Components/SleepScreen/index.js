@@ -26,6 +26,7 @@ const SleepScreen = ({ toggleView }) => {
         })()
         return function cleanup() {
             removeUpdate(id);
+            window.removeEventListener("click", changeView);
         }
     }, []);
 
