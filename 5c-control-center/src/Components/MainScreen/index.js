@@ -25,7 +25,8 @@ const MainScreen = ({ toggleView, timeoutTime = 10000 }) => {
             lastClick.current = false;
             setTimeout(timeoutFunction, timeoutTime)
         } else
-            toggleView();
+            // toggleView();
+            console.log("swap"); 
     }
 
     useEffect(() => {

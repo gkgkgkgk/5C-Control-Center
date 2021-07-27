@@ -3,7 +3,6 @@ import React from 'react';
 
 const defaultStyle = {
     flex:"0 0 120px",
-    height:"50px", 
     borderRadius: "5px",
     border: "1px solid black",
     textAlign: 'center',

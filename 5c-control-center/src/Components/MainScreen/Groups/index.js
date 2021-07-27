@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import Card from "./card";
 import ToggleGroup from "./ToggleGroup";
 const devices = require("../../../env/devices.json"/*"../../../env/devices.json"*/).device_keys.length % 2 !== 0 ? [...(require("./../../../env/devices.json").device_keys), { Name: "", id: null, key: null }] : require("./../../../env/devices.json").device_keys;
-const groups = require("../../../env/groups.json"/*"../../../env/groups.json"*/).groups % 2 !== 0 ? [...(require("./../../../env/groups.json").groups), { Name: "", members: [] }] : require("./../../../env/groups.json").groups;
+const groups = require("../../../env/groups.json"/*"../../../env/groups.json"*/).groups.length % 2 !== 0 ? [...(require("./../../../env/groups.json").groups), { Name: "", members: [] }] : require("./../../../env/groups.json").groups;
 
 const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
 
@@ -72,25 +72,25 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
     );
 
     return (
-        <div>
 
-            <form style={{
-                position: "flex",
-                paddingLeft: "100px",
-                marginTop: "-100px",
-                borderStyle: 'solid',
-                overflow: 'hidden'
-            }}>
-                <ToggleGroup swap={swap} isGroup={isGroup} />
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100vw" }} onMouseDown={onMouseDown} ref={scrollBarTop}>
-                        {isGroup ? groups.filter((_, i) => i % 2 === 0).map(buildCheckbox) : devices.filter((_, i) => i % 2 === 0).map(buildCheckbox)}
-                    </div>
-                    <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100vw" }} onMouseDown={onMouseDown} ref={scrollBarBot}>
-                        {isGroup ? groups.filter((_, i) => i % 2 !== 0).map(buildCheckbox) : devices.filter((_, i) => i % 2 !== 0).map(buildCheckbox)}
-                    </div>
+
+        
+        <div style={{
+            display: "flex",
+            marginTop: "-100px",
+            overflow: 'hidden',
+            height:"100px", 
+            paddingLeft:"40%"
+        }}>
+            <ToggleGroup swap={swap} isGroup={isGroup} />
+            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100vw", height:"50%" }} onMouseDown={onMouseDown} ref={scrollBarTop}>
+                    {isGroup ? groups.filter((_, i) => i % 2 === 0).map(buildCheckbox) : devices.filter((_, i) => i % 2 === 0).map(buildCheckbox)}
                 </div>
-            </form>
+                <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100vw",height:"50%" }} onMouseDown={onMouseDown} ref={scrollBarBot}>
+                    {isGroup ? groups.filter((_, i) => i % 2 !== 0).map(buildCheckbox) : devices.filter((_, i) => i % 2 !== 0).map(buildCheckbox)}
+                </div>
+            </div>
         </div>
     )
 }

@@ -14,8 +14,10 @@ const Slider = ({ hexColor, setHexColor, updateLights, startColor = 179, width =
     const [color, setColor] = useState(g[startColor]);
 
     const posRef = React.useRef(pos);
+    const sliderRef = useRef(); 
 
     const updateMousePos = ev => {
+        //console.log("mouse move"); 
         setMousePos({ x: ev.clientX, y: ev.clientY });
     }
 
@@ -25,8 +27,15 @@ const Slider = ({ hexColor, setHexColor, updateLights, startColor = 179, width =
     }
 
     const updateMouseUp = ev => {
-        // console.log(posRef.current);
+
+        if (posRef.current > 357) {
+            posRef.current -= (358);
+        } else if (posRef.current < 0) {
+            posRef.current += (358);
+        }
+
         setLastPos(posRef.current);
+        setColor(g[posRef.current]);
         setChange(false);
         //setHexColor(posRef.current.toString(16).padStart(3, '0'));
         updateLights({ type: "color", value: posRef.current.toString(16).padStart(3, '0') });
@@ -35,14 +44,13 @@ const Slider = ({ hexColor, setHexColor, updateLights, startColor = 179, width =
     useEffect(() => {
         window.addEventListener("touchmove", updateTouchPos);
         window.addEventListener("mousemove", updateMousePos);
-        // window.addEventListener("mouseup", updateMouseUp);
 
         return () => { window.removeEventListener("touchmove", updateTouchPos);window.removeEventListener("mousemove", updateMousePos); /*window.removeEventListener("mouseup", updateMouseUp);*/ };
     }, []);
 
     const mouseDown = ev => {
         ev.preventDefault();
-        // console.log(pos);
+        console.log("mouse down");
         setChange(true);
         setMousePos({ x: ev.clientX, y: ev.clientY });
     }
@@ -72,7 +80,7 @@ const Slider = ({ hexColor, setHexColor, updateLights, startColor = 179, width =
 
     return (
         <div className='sliderbody' style={{ width: '100%', height: '100%' }}>
-            <div  onMouseDown={mouseDown} onMouseUp={updateMouseUp} onTouchStart={touchStart} onTouchEnd={updateMouseUp} style={{
+            <div ref={sliderRef} onMouseDown={mouseDown} onMouseUp={updateMouseUp} onTouchStart={touchStart} onTouchEnd={updateMouseUp} style={{
                 boxShadow: '0 0 5px 5px rgba(0,0,0,0.3)',
                 borderRadius: change ? '5px' : '50%',
                 height: change ? "200px" : "180px",
