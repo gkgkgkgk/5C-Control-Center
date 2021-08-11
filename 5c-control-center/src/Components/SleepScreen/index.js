@@ -7,7 +7,7 @@ import Clock from './clock.js';
 const SleepScreen = ({ toggleView }) => {
 
     const [state, setState] = useState(false);
-    const [id, setId] = useState(null);
+    const id = useRef(null);
     const toggleRef = useRef(null);
 
 
@@ -18,14 +18,14 @@ const SleepScreen = ({ toggleView }) => {
 
     useEffect(() => {
         // console.log("use effect for sleep screen is running")
-        setId(update(exStateUpdate));
+        id.current = update(exStateUpdate);
         window.addEventListener("click", changeView);
         (async () => {
             const data = await isAllLightsOff();
             setState(data.data)
         })()
         return function cleanup() {
-            removeUpdate(id);
+            removeUpdate(id.current);
             window.removeEventListener("click", changeView);
         }
     }, []);
