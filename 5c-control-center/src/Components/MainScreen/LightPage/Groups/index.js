@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Card from "./card";
 import ToggleGroup from "./ToggleGroup";
-const devices = require("../../../env/devices.json"/*"../../../env/devices.json"*/).device_keys.length % 2 !== 0 ? [...(require("./../../../env/devices.json").device_keys), { Name: "", id: null, key: null }] : require("./../../../env/devices.json").device_keys;
-const groups = require("../../../env/groups.json"/*"../../../env/groups.json"*/).groups.length % 2 !== 0 ? [...(require("./../../../env/groups.json").groups), { Name: "", members: [] }] : require("./../../../env/groups.json").groups;
+const devices = require("../../../../env/devices.json"/*"../../../env/devices.json"*/).device_keys.length % 2 !== 0 ? [...(require("../../../../env/devices.json").device_keys), { Name: "", id: null, key: null }] : require("../../../../env/devices.json").device_keys;
+const groups = require("../../../../env/groups.json"/*"../../../env/groups.json"*/).groups.length % 2 !== 0 ? [...(require("../../../../env/groups.json").groups), { Name: "", members: [] }] : require("../../../../env/groups.json").groups;
 
 const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
 
