@@ -25,7 +25,9 @@ let disconnectedDevices = [];
 const makeStatus = dps => ({
     on: dps?.["20"],
     mode: dps?.["21"],
-    color: dps?.["24"]
+    brightnessWhite: dps?.["22"],
+    warmth: dps?.["23"],
+    color: dps?.["24"],
 });
 
 const getDevices = async () => {
@@ -34,11 +36,12 @@ const getDevices = async () => {
         console.log("connecting " + Name);
         await device.find().catch(e => { console.error(`Error with ${Name}`) });
         await device.connect();
+        const status = makeStatus((await device.get({ schema: true })).dps)
         device.on('disconnected', () => onDisconnected(Name, device));
         device.on('error', e => onError(e, Name, device));
         // device.on('data', (data) => onData(data, Name, device));
         device.on('dp-refresh', (data) => onData(data, Name, device));
-        return ({ Name, device, status: makeStatus((await device.get({ schema: true })).dps) })
+        return ({ Name, device, status  })
     });
     connectedDevices = await Promise.all(devices);
 }
@@ -51,10 +54,10 @@ const connectAllDisconnected = async () => {
         await device.find().catch(e => { console.error(`Error with ${Name}`) });
         await device.connect();
         const status = makeStatus((await device.get({ schema: true })).dps)
-        device.on('disconnected', () => onDisconnected(Name, device));
-        device.on('error', e => onError(e, Name, device));
+        // device.on('disconnected', () => onDisconnected(Name, device));
+        // device.on('error', e => onError(e, Name, device));
         // device.on('data', data => onData(data, Name, device));
-        device.on('dp-refresh', (data) => onData(data, Name, device));
+        // device.on('dp-refresh', (data) => onData(data, Name, device));
         return ({ Name, device, status });
     });
 
@@ -62,7 +65,7 @@ const connectAllDisconnected = async () => {
 
 }
 
-const interval = setInterval(connectAllDisconnected, 1000);
+const interval = setInterval(connectAllDisconnected, 10000);
 
 const onError = (e, Name, device) => {
     connectedDevices = connectedDevices.filter(({ Name: currentName }) => Name !== currentName);
@@ -80,7 +83,11 @@ const onData = ({ dps: data }, Name, device) => {
 
     if( !("20" in data) && status) data["20"] = status.on; 
     if( !("21" in data) && status) data["21"] = status.mode; 
+    if( !("22" in data) && status) data["22"] = status.brightnessWhite; 
+    if( !("23" in data) && status) data["23"] = status.warmth; 
     if( !("24" in data) && status) data["24"] = status.color; 
+
+    // console.log(data); 
 
     const newStatus = makeStatus(data);
     connectedDevices = connectedDevices.map(({ Name: currentName, device: currentDevice, status }) => Name !== currentName ? { Name: currentName, device: currentDevice, status } : { Name, device, status: newStatus })
@@ -138,21 +145,54 @@ app.get("/getAllStatus", async (req, res) => {
     res.send(connectedDevices.map(({ Name, status }) => ({ Name, status })))
 });
 
-const changeLights = (lghts,newState) => {
-    const devicesToUpdate = connectedDevices.map((x,i)=>({...x,index:i})).filter(({ Name }) => lghts.includes(Name));
-    devicesToUpdate.forEach(({ device,index }) => {
-        if (newState === "white") {
+const changeLights = (lghts,newState,isGroup,original) => {
+    const devicesToUpdate = connectedDevices.filter(({ Name }) => lghts.includes(Name));
+    if(newState === "off"){
+        let check = devicesToUpdate; 
+        if(isGroup)
+            check = connectedDevices.filter(( {Name} ) => original.includes(Name));
+        console.log(check.map(( {Name} ) => Name));
+        newState = check.reduce((acc,{status})=>{
+            if (status.on) {
+                acc.on++; 
+                return acc;
+            }
+            acc.off++; 
+            return acc;
+        },{on:0,off:0});
+        console.log(newState);
+        if (newState.on > newState.off) newState = "off";
+        else newState = "on";
+    }
+    devicesToUpdate.forEach(({ device },i) => {
+        if (newState === "white|warm") {
             // need to check for warmth and other parameters in the setting and newState
             device.set({
                 multiple: true,
                 data: {
                     "20": true,
-                    "21": "white"
+                    "21": "white",
+                    "22": 1000,
+                    "23": 0,
                 }
             });
 
-        } else if (newState === "off")
+        } else if (newState === "white|normal") { 
+            device.set({
+                multiple: true,
+                data: {
+                    "20": true,
+                    "21": "white",
+                    "22": 1000,
+                    "23": 500,
+                }
+            });
+        }
+        
+        else if (newState === "off")
             device.set({ dps: 20, set: false });
+        else if (newState === "on")
+            device.set({ dps: 20, set: true });
         else {
             device.set({
                 multiple: true,
@@ -168,13 +208,19 @@ const changeLights = (lghts,newState) => {
 
 app.post("/changeLights", async (req, res) => {
     const isGroup = req.body.isGroup;
-    const lights = isGroup ? groups.filter(({ Name }) => req.body.lights.includes(Name)).reduce((acc, { members }) => ([...acc, ...members.filter(name => !acc.includes(name))]), []) : req.body.lights;
+    const lightvals = req.body.lights.includes("All") ?  groups.filter(({ Name }) => Name !== "All"): groups.filter(({ Name }) => req.body.lights.includes(Name)); 
+    console.log(lightvals);
+    const lights = isGroup ? lightvals.reduce((acc, { members }) => ([...acc, ...members.filter(name => !acc.includes(name))]), []) : lightvals;
+    console.log(lights);
+    const firstFromEachGroup = isGroup ? lightvals.reduce((acc,{members}) => [...acc, members.filter(name => !acc.includes(name))[0]],[]): lightvals;
     const newState = req.body.newState;
 
-    changeLights(lights,newState);
+    console.log(firstFromEachGroup); 
+
+    changeLights(lights,newState,isGroup,firstFromEachGroup);
     if (disconnectedDevices.length > 0) {
         await connectAllDisconnected();
-        changeLights(lights,newState);
+        changeLights(lights,newState,isGroup,firstFromEachGroup);
     }
     res.send(true);
 })

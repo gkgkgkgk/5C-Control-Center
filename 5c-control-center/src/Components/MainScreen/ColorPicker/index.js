@@ -3,7 +3,7 @@ import MiniSlider from './minislider';
 import Modetoggle from './modetoggle';
 import Slider from './slider';
 
-const ColorPicker = ({ change, colorVars, satVars, brightnessVars, updateLights }) => {
+const ColorPicker = ({ change, colorVars, satVars, brightnessVars, updateLights,warm,toggle,normal }) => {
 
 
     return (
@@ -23,7 +23,7 @@ const ColorPicker = ({ change, colorVars, satVars, brightnessVars, updateLights 
                 <div style={{ marginTop: '20px', width: '35%' }}></div>
             </div >
             <div style={{ height: '20%', display: 'flex', flexDirection: "row", justifyContent: 'center' }}>
-                <Modetoggle></Modetoggle>
+                <Modetoggle warm={warm} toggle={toggle} normal={normal}/>
             </div>
         </div >
     )

@@ -1,15 +1,12 @@
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
-const socket = io("http://localhost:8080/");
+axios.defaults.baseURL = window.location.href.split(":")[2].slice(0,-1) === "8080" ? 'http://192.168.68.150:8080': 'http://localhost:8080'; 
+const socket = io(axios.defaults.baseURL);
 let callbacks = [];
 
 socket.on("update", (res) => {
-    // console.log("update recived")
-    // console.log(callbacks)
     callbacks.forEach(({ callback }) => {
-        // console.log(callback)
-        // if (typeof callback === "function") 
         callback(res);
     });
 })
@@ -28,20 +25,19 @@ export const removeUpdate = uid => {
 }
 
 export const isAllLightsOff = async () => {
-    return axios.get("http://localhost:8080/isOneLightOn");
+    return axios.get(`/isOneLightOn`);
 }
 
 export const toggleAllLights = (value) => {
     if (value) {
-        axios.get("http://localhost:8080/turnOnAllLights")
+        axios.get(`/turnOnAllLights`);
     } else {
-        axios.get("http://localhost:8080/turnOffAllLights");
+        axios.get(`/turnOffAllLights`);
     }
     return true;
 }
 
 export const changeLights = async (lights, isGroup, color, sat, brightness) => {
-    let newState = `0${color}0${sat}0${brightness}`;
-
-    const res = await axios.post("http://localhost:8080/changeLights", { newState, lights, isGroup });
+    const newState = color === "white|warm" || color === "off" || color === "white|normal"? color: `0${color}0${sat}0${brightness}` ;
+    return axios.post(`/changeLights`, {newState, lights, isGroup});
 }
