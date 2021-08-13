@@ -6,11 +6,11 @@ import Wrapper  from "./Wrapper";
 
 
 
-const MainPage = ({ toggleView, timeoutTime = 10000 })=>{
+const MainPage = ({ toggleView, timeoutTime = 10000, spotifyStart=false, spotifyAuth=[] })=>{
 
     const [background, setBackground] = useState("white");
     const spotifyState = {
-        page: <Spotify setBackground={setBackground}/>,
+        page: <Spotify setBackground={setBackground} spotifyAuth={spotifyAuth}/>,
         right:()=> lightPageState
     }
     
@@ -18,7 +18,7 @@ const MainPage = ({ toggleView, timeoutTime = 10000 })=>{
         page: <LightPage setBackground={setBackground}/>,
         left:()=> spotifyState
     }
-    const [currentPage, setCurrentPage] = useState(lightPageState);
+    const [currentPage, setCurrentPage] = useState(spotifyStart ? spotifyState:lightPageState);
     
     const lastClick = useRef(false);
 

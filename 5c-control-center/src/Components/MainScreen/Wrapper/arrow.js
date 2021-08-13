@@ -58,9 +58,13 @@ const styleSheet = {
 
 
 const Arrow = ({direction="right",style, onClick={onClick}})=>(
-    <div style={style} onClick={onClick}>
-        <div style = {{...styleSheet.arrow(direction),...styleSheet.top(direction)}}/>
-        <div style = {{...styleSheet.arrow(direction),...styleSheet.bot(direction)}}/>
+    <div style={{ height:"100%",width:"100%", ...style}} onClick={onClick}>
+        <div style = {{display:"flex", justifyContent: 'center', alignItems:"center", height:"100%" }}>
+            <div>
+                <div style = {{...styleSheet.arrow(direction),...styleSheet.top(direction)}}/>
+                <div style = {{...styleSheet.arrow(direction),...styleSheet.bot(direction)}}/>
+            </div>
+        </div>
     </div>
 )
 

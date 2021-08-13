@@ -7,7 +7,7 @@ const styleSheet = {
         width:"100%"
     },
     small: {
-        flexBasis: '1%',
+        flexBasis: '5%',
         alignSelf: 'center',
     },
     nested:{
@@ -27,7 +27,7 @@ const Wrapper = ({children,style={}, globalStyle={}, state = {}, setState=consol
 
     return (
         <div style={{...styleSheet.container, ...globalStyle}}>
-            <Arrow style={styleSheet.small} direction={"left"} onClick = {()=>onClick("left")}/>
+            <Arrow style={{...styleSheet.small}} direction={"left"} onClick = {()=>onClick("left")}/>
             <div style = {{...styleSheet.nested, ...styleSheet.container}}>
                 <Arrow style={styleSheet.small} direction={"up"} onClick = {()=>onClick("up")}/>
                 <div style ={{...style,height: "100%"}}>{children}</div>

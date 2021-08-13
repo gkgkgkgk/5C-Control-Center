@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+const SpotifyWebAPI = require("spotify-web-api-node"); 
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const io = require("socket.io")(http, {
@@ -13,6 +14,7 @@ const cors = require("cors");
 const port = process.env.PORT == undefined ? 8080 : process.env.PORT
 const { device_keys } = require("../env/devices.json");
 const { groups } = require("../env/groups.json");
+const { spotify } = require("../env/keys.json");
 
 app.use(express.static(__dirname + '/build'));
 app.use(cors()); // change this to not allow everyone eventually 
@@ -96,6 +98,10 @@ const onData = ({ dps: data }, Name, device) => {
 }
 
 app.get('/', (req, res)=> {
+    res.sendFile(__dirname + '/build/index.html');
+})
+
+app.get('/skipSpotify', (req, res)=> {
     res.sendFile(__dirname + '/build/index.html');
 })
 
@@ -218,6 +224,43 @@ app.post("/changeLights", async (req, res) => {
     }
     res.send(true);
 })
+
+
+app.post("/refresh",(req,res)=>{
+    const refreshToken = req.body.refreshToken; 
+    const spotifyApi = new SpotifyWebAPI({
+      redirectUri: `${req.get("origin")}/skipSpotify/`,
+      clientId: spotify.clientId,
+      clientSecret: spotify.clientSecret,
+      refreshToken
+    });
+    
+    spotifyApi.refreshAccessToken().then(({body: {accessToken,expiresIn}})=>{
+      res.json({accessToken,expiresIn}); 
+    })
+    .catch(()=>{res.sendStatus(400)})
+  
+  })
+  
+  app.post("/login", (req,res)=>{
+    const code = req.body.code; 
+    console.log(`${req.get("origin")}/skipSpotify`); 
+    const spotifyApi = new SpotifyWebAPI({
+      redirectUri: `${req.get("origin")}/skipSpotify`,
+      clientId: spotify.clientId,
+      clientSecret: spotify.clientSecret
+    });
+    spotifyApi.authorizationCodeGrant(code).then(data => {
+      res.json({
+        accessToken: data.body.access_token, 
+        refreshToken: data.body.refresh_token, 
+        expiresIn: data.body.expires_in,
+      })
+    }).catch((err)=>{
+      console.log(err); 
+      res.sendStatus(400)
+    }); 
+  })
 
 
 http.listen(port, () => console.log(`listening on port ${port}`));
