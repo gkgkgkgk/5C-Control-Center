@@ -13,11 +13,8 @@ const styleSheet = {
 
 const Modetoggle = ({warm,toggle,normal}) => {
 
-
-
-
     return (
-        <div style = {{display: 'flex'}}>
+        <div style = {{display: 'flex', marginTop:"50px"}}>
             <div style = {styleSheet.circle('orange')} onClick={warm} />
             <div style = {styleSheet.circle('green')} onClick={toggle} />
             <div style = {styleSheet.circle('white')} onClick={normal} />

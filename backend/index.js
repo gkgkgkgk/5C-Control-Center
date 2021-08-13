@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+const SpotifyWebAPI = require("spotify-web-api-node"); 
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const io = require("socket.io")(http, {
@@ -13,6 +14,7 @@ const cors = require("cors");
 const port = process.env.PORT == undefined ? 8080 : process.env.PORT
 const { device_keys } = require("../env/devices.json");
 const { groups } = require("../env/groups.json");
+const { spotify } = require("../env/keys.json");
 
 app.use(express.static(__dirname + '/build'));
 app.use(cors()); // change this to not allow everyone eventually 
@@ -99,6 +101,10 @@ app.get('/', (req, res)=> {
     res.sendFile(__dirname + '/build/index.html');
 })
 
+app.get('/skipSpotify', (req, res)=> {
+    res.sendFile(__dirname + '/build/index.html');
+})
+
 const doTurnOff = () => {
     connectedDevices.forEach(({ device }, i) => {
         device.set({ dps: 20, set: false });
@@ -151,7 +157,6 @@ const changeLights = (lghts,newState,isGroup,original) => {
         let check = devicesToUpdate; 
         if(isGroup)
             check = connectedDevices.filter(( {Name} ) => original.includes(Name));
-        console.log(check.map(( {Name} ) => Name));
         newState = check.reduce((acc,{status})=>{
             if (status.on) {
                 acc.on++; 
@@ -160,7 +165,6 @@ const changeLights = (lghts,newState,isGroup,original) => {
             acc.off++; 
             return acc;
         },{on:0,off:0});
-        console.log(newState);
         if (newState.on > newState.off) newState = "off";
         else newState = "on";
     }
@@ -209,13 +213,9 @@ const changeLights = (lghts,newState,isGroup,original) => {
 app.post("/changeLights", async (req, res) => {
     const isGroup = req.body.isGroup;
     const lightvals = req.body.lights.includes("All") ?  groups.filter(({ Name }) => Name !== "All"): groups.filter(({ Name }) => req.body.lights.includes(Name)); 
-    console.log(lightvals);
     const lights = isGroup ? lightvals.reduce((acc, { members }) => ([...acc, ...members.filter(name => !acc.includes(name))]), []) : lightvals;
-    console.log(lights);
     const firstFromEachGroup = isGroup ? lightvals.reduce((acc,{members}) => [...acc, members.filter(name => !acc.includes(name))[0]],[]): lightvals;
     const newState = req.body.newState;
-
-    console.log(firstFromEachGroup); 
 
     changeLights(lights,newState,isGroup,firstFromEachGroup);
     if (disconnectedDevices.length > 0) {
@@ -224,6 +224,43 @@ app.post("/changeLights", async (req, res) => {
     }
     res.send(true);
 })
+
+
+app.post("/refresh",(req,res)=>{
+    const refreshToken = req.body.refreshToken; 
+    const spotifyApi = new SpotifyWebAPI({
+      redirectUri: `${req.get("origin")}/skipSpotify/`,
+      clientId: spotify.clientId,
+      clientSecret: spotify.clientSecret,
+      refreshToken
+    });
+    
+    spotifyApi.refreshAccessToken().then(({body: {accessToken,expiresIn}})=>{
+      res.json({accessToken,expiresIn}); 
+    })
+    .catch(()=>{res.sendStatus(400)})
+  
+  })
+  
+  app.post("/login", (req,res)=>{
+    const code = req.body.code; 
+    console.log(`${req.get("origin")}/skipSpotify`); 
+    const spotifyApi = new SpotifyWebAPI({
+      redirectUri: `${req.get("origin")}/skipSpotify`,
+      clientId: spotify.clientId,
+      clientSecret: spotify.clientSecret
+    });
+    spotifyApi.authorizationCodeGrant(code).then(data => {
+      res.json({
+        accessToken: data.body.access_token, 
+        refreshToken: data.body.refresh_token, 
+        expiresIn: data.body.expires_in,
+      })
+    }).catch((err)=>{
+      console.log(err); 
+      res.sendStatus(400)
+    }); 
+  })
 
 
 http.listen(port, () => console.log(`listening on port ${port}`));
