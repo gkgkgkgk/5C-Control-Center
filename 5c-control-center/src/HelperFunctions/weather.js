@@ -6,7 +6,6 @@ const path = `https://api.openweathermap.org/data/2.5/weather?zip=10003&appid=${
 
 export const getWeather = async () => {
     const d = await axios.get(path);
-    // console.log(d); 
     return d;
 };
 

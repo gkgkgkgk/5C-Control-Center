@@ -3,7 +3,7 @@ import ColorPicker from './ColorPicker';
 import Groups from './Groups';
 import { changeLights, update } from '../../../HelperFunctions/Lights/lights';
 
-const LightPage = () => {
+const LightPage = ({setBackground}) => {
     // const [lastClick, setLastClick] = useState(false);
     
     const [isGroup, setIsGroup] = useState(true);
@@ -11,6 +11,8 @@ const LightPage = () => {
     const [hexColor, setHexColor] = useState('001');
     const [hexSat, setHexSat] = useState('3e8');
     const [hexBrightness, setHexBrightness] = useState('3e8');
+
+    useEffect(() => {setBackground('linear-gradient(45deg, #1870ed 0, #f18f88 100%)')},[])
 
 
     const updateLights = ({ type, value }) => {
@@ -33,13 +35,10 @@ const LightPage = () => {
             else
                 changeLights(active, isGroup, "white|normal");
         }
-        // else
-        //     changeLights(["Hallway light", "Living Room 1"], false, hexColor, hexSat, hexBrightness);
     }
 
     return (    
-        //filter: 'blur(5px)'
-        <div style={{ height: '100%', background: 'linear-gradient(45deg, #1870ed 0, #f18f88 100%)' }}>
+        <div style={{ height: '100%' }}>
             <ColorPicker colorVars={[hexColor, setHexColor]} satVars={[hexSat, setHexSat]} brightnessVars={[hexBrightness, setHexBrightness]} updateLights={updateLights} warm={()=>updateLights({type:"white",value:"warm"})} toggle={()=>updateLights({type:"off",value:"off"})} normal={()=>updateLights({type:"white",value:"normal"})} />
             <Groups active={active} isGroup={isGroup} setActive={setActive} setIsGroup={setIsGroup} />
         </div >

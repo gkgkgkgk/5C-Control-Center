@@ -70,28 +70,36 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
     const buildCheckbox = ({ Name }) => (
         <Card Name={Name} checked={() => (active.reduce((acc, name) => acc || (name === Name), false))} onClick={updateList} />
     );
+    const calculateWidth = ()=>isGroup ? (groups.length / 2 + 1) * 120 : (devices.length / 2 + 1) * 120; 
+    const formattedWidth = ()=> calculateWidth() > 960 ? "100%": calculateWidth() + "px";
 
     return (
 
-
-        
         <div style={{
             display: "flex",
-            marginTop: "-100px",
+            justifyContent: "center",
+            alignItems:"center"
+        }}>
+            <div style={{
+            display: "flex",
             overflow: 'hidden',
-            height:"100px", 
-            paddingLeft:"40%"
+            height:"100px",
+            width: formattedWidth(),
+            
         }}>
             <ToggleGroup swap={swap} isGroup={isGroup} />
-            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100vw", height:"50%" }} onMouseDown={onMouseDown} ref={scrollBarTop}>
+            <div style={{ display: "flex", flexDirection: "column", height: "100%", width: "100%",}}>
+                <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100%", height:"50%" }} onMouseDown={onMouseDown} ref={scrollBarTop}>
                     {isGroup ? groups.filter((_, i) => i % 2 === 0).map(buildCheckbox) : devices.filter((_, i) => i % 2 === 0).map(buildCheckbox)}
                 </div>
-                <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100vw",height:"50%" }} onMouseDown={onMouseDown} ref={scrollBarBot}>
+                <div style={{ display: "flex", fontSize: "1em", overflowX: 'hidden', overflowY: "hidden", width: "100%",height:"50%" }} onMouseDown={onMouseDown} ref={scrollBarBot}>
                     {isGroup ? groups.filter((_, i) => i % 2 !== 0).map(buildCheckbox) : devices.filter((_, i) => i % 2 !== 0).map(buildCheckbox)}
                 </div>
             </div>
         </div>
+        </div>
+        
+        
     )
 }
 

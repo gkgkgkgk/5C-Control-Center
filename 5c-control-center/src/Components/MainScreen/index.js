@@ -3,28 +3,32 @@ import LightPage from "./LightPage";
 import Spotify from './Spotify';
 import Wrapper  from "./Wrapper";
 
-const spotifyState = {
-    page: <Spotify />,
-    right:()=> lightPageState
-}
 
-const lightPageState = {
-    page: <LightPage />,
-    left:()=> spotifyState
-}
 
 
 const MainPage = ({ toggleView, timeoutTime = 10000 })=>{
-    const lastClick = useRef(false);
+
+    const [background, setBackground] = useState("white");
+    const spotifyState = {
+        page: <Spotify setBackground={setBackground}/>,
+        right:()=> lightPageState
+    }
+    
+    const lightPageState = {
+        page: <LightPage setBackground={setBackground}/>,
+        left:()=> spotifyState
+    }
     const [currentPage, setCurrentPage] = useState(lightPageState);
+    
+    const lastClick = useRef(false);
 
     const updateClick = () => {
         lastClick.current = true;
     }
     const timeoutFunction = () => {
-        if (lastClick.current) {
+        if (lastClick.current)
             lastClick.current = false;
-        } else
+        else
             toggleView();
     }
 
@@ -37,11 +41,11 @@ const MainPage = ({ toggleView, timeoutTime = 10000 })=>{
             window.removeEventListener("mousemove",updateClick); 
             window.removeEventListener("touchmove",updateClick); 
         }
-    }, [])
+    }, []);
 
 
     return (
-        <Wrapper state={currentPage} setState={setCurrentPage}>
+        <Wrapper state={currentPage} setState={setCurrentPage} globalStyle={{background}}>
             {currentPage.page}
         </Wrapper>
     )

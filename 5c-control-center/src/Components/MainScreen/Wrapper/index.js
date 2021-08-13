@@ -17,7 +17,7 @@ const styleSheet = {
 }
 
 
-const Wrapper = ({children,style={}, globalStyle={}, state = {}, setState})=>{
+const Wrapper = ({children,style={}, globalStyle={}, state = {}, setState=console.log})=>{
 
     const onClick = (side)=>{
         if( !(side in state)) return; 

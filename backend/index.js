@@ -151,7 +151,6 @@ const changeLights = (lghts,newState,isGroup,original) => {
         let check = devicesToUpdate; 
         if(isGroup)
             check = connectedDevices.filter(( {Name} ) => original.includes(Name));
-        console.log(check.map(( {Name} ) => Name));
         newState = check.reduce((acc,{status})=>{
             if (status.on) {
                 acc.on++; 
@@ -160,7 +159,6 @@ const changeLights = (lghts,newState,isGroup,original) => {
             acc.off++; 
             return acc;
         },{on:0,off:0});
-        console.log(newState);
         if (newState.on > newState.off) newState = "off";
         else newState = "on";
     }
@@ -209,13 +207,9 @@ const changeLights = (lghts,newState,isGroup,original) => {
 app.post("/changeLights", async (req, res) => {
     const isGroup = req.body.isGroup;
     const lightvals = req.body.lights.includes("All") ?  groups.filter(({ Name }) => Name !== "All"): groups.filter(({ Name }) => req.body.lights.includes(Name)); 
-    console.log(lightvals);
     const lights = isGroup ? lightvals.reduce((acc, { members }) => ([...acc, ...members.filter(name => !acc.includes(name))]), []) : lightvals;
-    console.log(lights);
     const firstFromEachGroup = isGroup ? lightvals.reduce((acc,{members}) => [...acc, members.filter(name => !acc.includes(name))[0]],[]): lightvals;
     const newState = req.body.newState;
-
-    console.log(firstFromEachGroup); 
 
     changeLights(lights,newState,isGroup,firstFromEachGroup);
     if (disconnectedDevices.length > 0) {

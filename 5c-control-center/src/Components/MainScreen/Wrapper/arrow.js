@@ -1,4 +1,3 @@
-
 const styleSheet = {
     arrow: (direction)=>({
         width: "20px",
@@ -30,10 +29,6 @@ const styleSheet = {
                 })
             }
         }
-        
-        
-        
-        //transform: "rotate(45deg)",
     }, 
     bot:(direction)=>{
         switch(direction){
@@ -58,7 +53,6 @@ const styleSheet = {
                 })
             }
         }
-
     }
 }
 
