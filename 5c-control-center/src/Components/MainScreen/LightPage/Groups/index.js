@@ -16,10 +16,21 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
 
     const updateList = (Name) => {
         if (Name === "") return;
-        if (!active.reduce((acc, name) => acc || (name === Name), false))
-            setActive([...active, Name]);
-        else
-            setActive(active.filter((name) => Name !== name));
+        if (!active.reduce((acc, name) => acc || (name === Name), false)){  // if the group is not active
+            if (active.length === 1 && active[0] === "All" && isGroup) 
+                setActive([Name]);
+            else if(Name === "All"  && isGroup)
+                setActive(["All"]);
+            else 
+                setActive([...active, Name]);
+        }
+        else {
+            const newActive = active.filter((name) => Name !== name); 
+            if (newActive.length === 0 && isGroup)
+                setActive(["All"]);
+            else
+                setActive(newActive);
+        }
     }
 
 
@@ -65,7 +76,7 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
         }
     }
 
-    const swap = () => { setIsGroup(!isGroup); setActive([]); }
+    const swap = () => {  setIsGroup(!isGroup); setActive(!isGroup ? ["All"]:[]); }
 
     const buildCheckbox = ({ Name }) => (
         <Card Name={Name} checked={() => (active.reduce((acc, name) => acc || (name === Name), false))} onClick={updateList} />

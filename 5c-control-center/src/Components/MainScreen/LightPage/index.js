@@ -7,7 +7,7 @@ const LightPage = ({setBackground}) => {
     // const [lastClick, setLastClick] = useState(false);
     
     const [isGroup, setIsGroup] = useState(true);
-    const [active, setActive] = useState([]);
+    const [active, setActive] = useState(["All"]);
     const [hexColor, setHexColor] = useState('001');
     const [hexSat, setHexSat] = useState('3e8');
     const [hexBrightness, setHexBrightness] = useState('3e8');
