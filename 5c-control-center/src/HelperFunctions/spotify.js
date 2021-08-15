@@ -52,3 +52,8 @@ export const getDeviceId = async (spotifyApi)=>{
 
 
 }
+
+export const transferDevice = async (spotifyApi)=>{
+    await spotifyApi.transferMyPlayback([device_id]); 
+    return device_id;
+}

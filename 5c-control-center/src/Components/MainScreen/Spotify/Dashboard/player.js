@@ -36,33 +36,41 @@ const Controls = ({play,skip,rewind, isPlay})=>(
 )
 
 
-const Player = ({spotifyApi, ready, device_id})=>{
+const Player = ({spotifyApi, ready, device_id, transferDeviceId})=>{
     const [currentSong,setCurrentSong] = useState(null); 
     const [currentAlbumCover,setCurrentAlbumCover] = useState(null); 
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState("00"); 
     const [currentSongDuration, setCurrentSongDuration] = useState("00");
     const [isPlay, setIsPlay] = useState(false);
 
-    const play = ()=>{
-        if(device_id === false) return;
+    const play = async ()=>{
+        if(device_id === false) transferDeviceId();
         if (isPlay)
             spotifyApi.pause({device_id});
         else
             spotifyApi.play({device_id});
     }
 
-    const skip = ()=>{
-        if(device_id === false) return;
+    const skip = async ()=>{
+        if(device_id === false) transferDeviceId();
         spotifyApi.skipToNext({device_id});
     }
-    const rewind = ()=>{
-        if(device_id === false) return;
+    const rewind = async ()=>{
+        if(device_id === false) transferDeviceId();
         spotifyApi.skipToPrevious({device_id});
     }
 
     const intervalFunction = ()=>{
         spotifyApi.getMyCurrentPlaybackState().then((resp) =>{
-            if(!resp?.body || resp?.body?.device?.id !== device_id) return; 
+            if(!resp?.body) return; 
+            if(resp?.body?.device?.id !== device_id){
+                setCurrentSong(null); 
+                setCurrentSongDuration(0);
+                setCurrentPlaybackTime(0); 
+                setCurrentAlbumCover(null);
+                setIsPlay(false);
+            }
+
             // console.log(resp.body);
             setCurrentSong(resp?.body?.item?.name); 
             setCurrentSongDuration((resp?.body?.item?.duration_ms));
