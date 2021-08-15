@@ -98,10 +98,10 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     return(
     <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div>
-            <p style={{textAlign:"center", fontSize: "30px"}}>{currentSong}</p>
+            <p style={{textAlign:"center", fontSize: "150px"}}>{currentSong}</p>
             <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}><img width={150} src={currentAlbumCover} style ={{ border: "1px solid black"}}/></div>
             
-            <div style ={{display:"flex", alignItems: "center", width: "100%",}}>
+            <div style ={{display:"flex", alignItems: "center", width: "100%"}}>
                 <div>{convertMsToString(currentPlaybackTime)}</div>
                 <SongLocation currentTime={currentPlaybackTime} totalTime={currentSongDuration} />
                 <div>{convertMsToString(currentSongDuration)}</div>
