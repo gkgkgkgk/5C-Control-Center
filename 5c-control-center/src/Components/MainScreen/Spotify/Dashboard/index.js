@@ -3,6 +3,7 @@ import Player from './player';
 import SpotifyWebAPI from "spotify-web-api-node"; 
 import Playlists from './playlists';
 import {useState, useEffect} from "react";
+import {getDeviceId} from "../../../../HelperFunctions/spotify"; 
 const {spotify: {clientId}} = require('../../../../env/keys.json')
 const spotifyApi = new SpotifyWebAPI({clientId})
 
