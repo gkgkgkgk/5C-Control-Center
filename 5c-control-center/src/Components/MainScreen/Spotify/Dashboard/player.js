@@ -98,7 +98,7 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     return(
     <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div>
-            <p style={{textAlign:"center", fontSize: "150px"}}>{currentSong}</p>
+            <p style={{textAlign:"center", fontSize: "20px"}}>{currentSong}</p>
             <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}><img width={150} src={currentAlbumCover} style ={{ border: "1px solid black"}}/></div>
             
             <div style ={{display:"flex", alignItems: "center", width: "100%"}}>
