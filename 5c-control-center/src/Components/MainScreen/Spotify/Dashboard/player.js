@@ -75,7 +75,7 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
             setCurrentSong(resp?.body?.item?.name); 
             setCurrentSongDuration((resp?.body?.item?.duration_ms));
             setCurrentPlaybackTime((resp?.body?.progress_ms)); 
-            setCurrentAlbumCover(resp.body?.item.album.images[2].url);
+            setCurrentAlbumCover(resp.body?.item.album.images[0].url);
             setIsPlay(resp.body?.is_playing);
         })
         
@@ -98,8 +98,8 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     return(
     <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div>
-            <p style={{textAlign:"center"}}>{currentSong}</p>
-            <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}><img src={currentAlbumCover} style ={{ border: "1px solid black"}}/></div>
+            <p style={{textAlign:"center", fontSize: "30px"}}>{currentSong}</p>
+            <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}><img width={150} src={currentAlbumCover} style ={{ border: "1px solid black"}}/></div>
             
             <div style ={{display:"flex", alignItems: "center", width: "100%",}}>
                 <div>{convertMsToString(currentPlaybackTime)}</div>

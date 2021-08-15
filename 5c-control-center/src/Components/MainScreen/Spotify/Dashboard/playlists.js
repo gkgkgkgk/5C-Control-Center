@@ -15,7 +15,7 @@ const Playlists = ({spotifyApi, ready, device_id}) => {
         (async() => {
             setPlaylistsIcons(await Promise.all(playlists.map(async id=>{
                 const {body: {images: [{url: im} = {url:""}],name,uri}} = await spotifyApi.getPlaylist(id);
-                return (<img height ={150} src={im} alt={name} key={id} onClick={()=>onClick(uri)}/>); 
+                return (<img style ={{border: "2px solid black", paddingBottom: "3px"}} height ={150} src={im} alt={name} key={id} onClick={()=>onClick(uri)}/>); 
             })));
         })();
     },[ready])
