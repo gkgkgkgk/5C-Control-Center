@@ -36,7 +36,7 @@ const Controls = ({play,skip,rewind, isPlay})=>(
 )
 
 
-const Player = ({spotifyApi, ready, device_id, transferDeviceId})=>{
+const Player = ({spotifyApi, ready, device_id, transferDeviceId, setDeviceId})=>{
     const [currentSong,setCurrentSong] = useState(null); 
     const [currentAlbumCover,setCurrentAlbumCover] = useState(null); 
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState("00"); 
@@ -69,9 +69,9 @@ const Player = ({spotifyApi, ready, device_id, transferDeviceId})=>{
                 setCurrentPlaybackTime(0); 
                 setCurrentAlbumCover(null);
                 setIsPlay(false);
+                setDeviceId(false); 
+                return; 
             }
-
-            // console.log(resp.body);
             setCurrentSong(resp?.body?.item?.name); 
             setCurrentSongDuration((resp?.body?.item?.duration_ms));
             setCurrentPlaybackTime((resp?.body?.progress_ms)); 
