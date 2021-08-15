@@ -9,13 +9,13 @@ const App = () => {
   const [accessToken,loginWithCode,loggedIn] = useAuth();
 
   useEffect(() => {
-    let timeout = false ; 
-    if(window.location.href.includes("skipSpotify")) {
+    let timeout = false; // puts timeout to the correct scope;  
+    if(window.location.href.includes("skipSpotify")) {  // if the user just logged into spotify 
       (async ()=>{
-        await loginWithCode(new URLSearchParams(window.location.search).get("code"));
-        setGoToSpotify(true);
-        setSleep(false); 
-        timeout = setTimeout(() =>{setGoToSpotify(false)},1)
+        await loginWithCode(new URLSearchParams(window.location.search).get("code")); // authenticate the user
+        setGoToSpotify(true); // set the flag to true making us skip to the spotify screen
+        setSleep(false); // set the sleep flag to false not putting us in the sleep mode
+        timeout = setTimeout(() =>{setGoToSpotify(false)},1); // sets everthing back to normal for next time 
       })(); 
     }
     return () => {if(timeout !== false)clearTimeout(timeout);} 

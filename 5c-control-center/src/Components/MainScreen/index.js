@@ -10,7 +10,7 @@ const MainPage = ({ toggleView, timeoutTime = 10000, spotifyStart=false, spotify
 
     const [background, setBackground] = useState("white");
     const spotifyState = {
-        page: <Spotify setBackground={setBackground} spotifyAuth={spotifyAuth}/>,
+        page: <Spotify setBackground={setBackground} spotifyAuth={spotifyAuth} spotifyStart={spotifyStart}/>,
         right:()=> lightPageState
     }
     

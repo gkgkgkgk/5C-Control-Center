@@ -21,26 +21,7 @@ export const useAuth = ()=>{
         setRefreshToken(new_refreshToken);
         setExpiresIn(new_expiresIn);
         setLoggedIn(true);
-        console.log("logged in"); 
         return true; 
-
-
-        // axios.post("/login",{code}) // ,accessToken,refershToken,expiresIn
-        // .then(
-        //     ({data: {accessToken:new_accessToken,refreshToken:new_refreshToken,expiresIn:new_expiresIn}})=>{
-        //         window.history.pushState({},null,"/"); 
-        //         setAccessToken(new_accessToken);
-        //         setRefreshToken(new_refreshToken);
-        //         setExpiresIn(new_expiresIn);
-        //         setLoggedIn(true);
-        //         console.log("logged in successfully");
-        //     }
-        // )
-        // .catch(
-        //     err=>{
-        //         window.location = '/';
-        //     }
-        // ) 
         
     }
 
