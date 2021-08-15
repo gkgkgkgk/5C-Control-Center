@@ -29,8 +29,7 @@ const Clock = ({ textSize = 7 }) => {
     return (
         <div style={{ color: 'white', textAlign:'center'}}>
             <div style ={{fontSize: `${textSize}em`}}>{time} </div>
-            <br />
-            It is {weather}°F in New York City
+            <span style = {{fontSize: `${textSize/2}em`}}>{weather}°F <span>NYC</span></span>
         </div>
     )
 }

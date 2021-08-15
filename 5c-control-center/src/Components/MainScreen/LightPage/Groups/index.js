@@ -70,7 +70,7 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
     const buildCheckbox = ({ Name }) => (
         <Card Name={Name} checked={() => (active.reduce((acc, name) => acc || (name === Name), false))} onClick={updateList} />
     );
-    const calculateWidth = ()=>isGroup ? (groups.length / 2 + 1) * 120 : (devices.length / 2 + 1) * 120; 
+    const calculateWidth = ()=>(isGroup ? (groups.length / 2 ) * 240 : (devices.length / 2 ) * 240) +110; 
     const formattedWidth = ()=> calculateWidth() > 960 ? "100%": calculateWidth() + "px";
 
     return (
@@ -78,12 +78,13 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
         <div style={{
             display: "flex",
             justifyContent: "center",
-            alignItems:"center"
+            alignItems:"center",
+            
         }}>
             <div style={{
             display: "flex",
             overflow: 'hidden',
-            height:"100px",
+            height:"200px",
             width: formattedWidth(),
             
         }}>

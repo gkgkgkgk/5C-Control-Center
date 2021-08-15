@@ -19,7 +19,7 @@ const Toggle = ({ refrence, onChange, style, toggle }) => {
 
     return (
         <div  className="toggle" style={style} >
-            <img onClick={changeToggle} height="100em" width="100em" src={path} ref={refrence}></img>
+            <img onClick={changeToggle} height="150em" src={path} ref={refrence}></img>
         </div>
     )
 }

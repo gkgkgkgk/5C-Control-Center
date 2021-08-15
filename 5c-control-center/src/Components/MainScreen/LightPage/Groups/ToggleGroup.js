@@ -10,21 +10,21 @@ const outerStyle = {
 
 const centerBulb = {
     position:"relative",
-    top:"25px",
+    top:"50px",
     left:"25px",
     zIndex:"1",
 }
 
 const rightBulb = {
     position:"relative",
-    top:"25px",
+    top:"50px",
     left:"-10px",
     transform:"rotate(45deg)",
 }
 
 const leftBulb = {
     position:"relative",
-    top:"-30px",
+    top:"-8px",
     left:"10px",
     transform:"rotate(-45deg)",
 }
