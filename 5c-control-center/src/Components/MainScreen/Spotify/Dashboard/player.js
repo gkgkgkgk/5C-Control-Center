@@ -62,7 +62,7 @@ const Player = ({spotifyApi, ready, device_id})=>{
 
     const intervalFunction = ()=>{
         spotifyApi.getMyCurrentPlaybackState().then((resp) =>{
-            if(!resp?.body) return; 
+            if(!resp?.body || resp?.body?.device?.id !== device_id) return; 
             // console.log(resp.body);
             setCurrentSong(resp?.body?.item?.name); 
             setCurrentSongDuration((resp?.body?.item?.duration_ms));
