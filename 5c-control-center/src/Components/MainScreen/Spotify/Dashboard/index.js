@@ -39,6 +39,7 @@ const Dashboard = ({accessToken}) =>{
         }}>
             <div style = {{
                 display: 'flex',
+                height: '100%',
             }}> 
                 <div style = {{flexBasis: "80%"}}>
                     <SongSearcher current_device_id={current_device_id} transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} correct_device_id={correctDeviceId}>

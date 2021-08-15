@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const styleSheet = {
     outer: {
         height:"5px", 
-        width:"200px",
+        width:"100%",
         border: "1px solid black",
         borderRadius: "2em ",
     },
@@ -20,7 +20,7 @@ const styleSheet = {
 }
 
 const SongLocation = ({currentTime,totalTime})=>(
-    <div>
+    <div style = {{width: "100%"}}>
         <div style = {styleSheet.outer}>
             <div style={styleSheet.inner(currentTime,totalTime)}/>
         </div>
@@ -29,9 +29,9 @@ const SongLocation = ({currentTime,totalTime})=>(
 
 const Controls = ({play,skip,rewind, isPlay})=>(
     <div style = {{display: "flex",justifyContent: "center"}}>
-        <img width={50} src="../../../assets/svg/rewind.svg" onClick={rewind} />
-        <img width={50} src={isPlay ? "../../../assets/svg/pause.svg": "../../../assets/svg/play.svg"} onClick={play} />
-        <img width={50} src="../../../assets/svg/skip.svg" onClick={skip} />
+        <img width={100} src="../../../assets/svg/rewind.svg" onClick={rewind} />
+        <img width={100} src={isPlay ? "../../../assets/svg/pause.svg": "../../../assets/svg/play.svg"} onClick={play} />
+        <img width={100} src="../../../assets/svg/skip.svg" onClick={skip} />
     </div>
 )
 
@@ -85,7 +85,7 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     useEffect(()=>{
         if(!ready) return; 
         intervalFunction(); 
-        const interval = setInterval( intervalFunction,1000);
+        const interval = setInterval(intervalFunction,1000);
         return(()=>clearInterval(interval))
     },[ready]);
 
@@ -96,12 +96,12 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     }
 
     return(
-    <div style={{width: "200px", display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <div>
             <p style={{textAlign:"center"}}>{currentSong}</p>
             <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}><img src={currentAlbumCover} style ={{ border: "1px solid black"}}/></div>
             
-            <div style ={{display:"flex", alignItems: "center"}}>
+            <div style ={{display:"flex", alignItems: "center", width: "100%",}}>
                 <div>{convertMsToString(currentPlaybackTime)}</div>
                 <SongLocation currentTime={currentPlaybackTime} totalTime={currentSongDuration} />
                 <div>{convertMsToString(currentSongDuration)}</div>
