@@ -7,7 +7,7 @@ const SongSearcher = ({spotifyApi,children,correct_device_id: device_id, transfe
 
     const onClick = async uri=>{
         if (current_device_id === false) await transferDeviceId(); 
-        await spotifyApi.addToQueue(uri,{device_id}); 
+        await spotifyApi.addToQueue(uri); 
         spotifyApi.skipToNext(); 
         setText("");
         setResults(<ul></ul>);
