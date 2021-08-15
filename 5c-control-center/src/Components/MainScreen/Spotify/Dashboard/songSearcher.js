@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-const SongSearcher = ({spotifyApi,children,device_id, transferDeviceId})=>{
+const SongSearcher = ({spotifyApi,children,correct_device_id: device_id, transferDeviceId, current_device_id})=>{
 
     const [text,setText] = useState("");
     const [results, setResults] = useState(<ul></ul>); 
 
     const onClick = async uri=>{
-        if (device_id === false) await transferDeviceId(); 
+        if (current_device_id === false) await transferDeviceId(); 
         await spotifyApi.addToQueue(uri,{device_id}); 
         spotifyApi.skipToNext(); 
         setText("");

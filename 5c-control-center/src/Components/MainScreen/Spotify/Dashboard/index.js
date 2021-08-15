@@ -10,10 +10,11 @@ const spotifyApi = new SpotifyWebAPI({clientId})
 const Dashboard = ({accessToken}) =>{
 
     const [ready,setReady]= useState(false);
-    const [deviceId,setDeviceId] = useState(false); 
+    const [correctDeviceId,setCorrectDeviceId] = useState(false); 
+    const [current_device_id,set_current_device_id] = useState(false); 
 
     const transferDeviceId = async () => {
-        setDeviceId(await transferDevice(spotifyApi)); 
+        set_current_device_id(await transferDevice(spotifyApi)); 
     }
 
 
@@ -22,8 +23,9 @@ const Dashboard = ({accessToken}) =>{
         if(!accessToken) return; 
         spotifyApi.setAccessToken(accessToken);
         (async ()=>{
-            const [flag,device_id] = await getDeviceId(spotifyApi);
-            if(flag) setDeviceId(device_id); 
+            const [flag,device_id,is_active] = await getDeviceId(spotifyApi);
+            if(flag) setCorrectDeviceId(device_id); 
+            if(is_active) set_current_device_id(device_id); 
             setReady(true);
         })(); 
     },[accessToken]);
@@ -39,11 +41,11 @@ const Dashboard = ({accessToken}) =>{
                 display: 'flex',
             }}> 
                 <div style = {{flexBasis: "80%"}}>
-                    <SongSearcher transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} device_id={deviceId}>
-                        <Player transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} ready={ready} device_id={deviceId}/>
+                    <SongSearcher current_device_id={current_device_id} transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} correct_device_id={correctDeviceId}>
+                        <Player transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} ready={ready} correct_device_id={correctDeviceId} current_device_id={current_device_id} set_current_device_id={set_current_device_id}/>
                     </SongSearcher> 
                 </div>
-                <div style = {{flexBasis: "20%"}}><Playlists device_id={deviceId}spotifyApi={spotifyApi} ready={ready}/> </div>
+                <div style = {{flexBasis: "20%"}}><Playlists device_id={correctDeviceId}spotifyApi={spotifyApi} ready={ready}/> </div>
             </div>
         </div>
     );

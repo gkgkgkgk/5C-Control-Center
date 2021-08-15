@@ -47,7 +47,7 @@ export const getDeviceId = async (spotifyApi)=>{
     const {body: {devices = []}} = await spotifyApi.getMyDevices(); 
     if (devices.length === 0) return [false,0]; 
     const flag = devices.reduce((acc,{id})=>acc || id === device_id,false);
-    return [true,flag ? device_id : devices[0].id];
+    return [true,flag ? device_id : devices[0].id, flag && devices[0].is_active];
 
 
 

@@ -36,7 +36,7 @@ const Controls = ({play,skip,rewind, isPlay})=>(
 )
 
 
-const Player = ({spotifyApi, ready, device_id, transferDeviceId, setDeviceId})=>{
+const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDeviceId, set_current_device_id, current_device_id})=>{
     const [currentSong,setCurrentSong] = useState(null); 
     const [currentAlbumCover,setCurrentAlbumCover] = useState(null); 
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState("00"); 
@@ -44,7 +44,7 @@ const Player = ({spotifyApi, ready, device_id, transferDeviceId, setDeviceId})=>
     const [isPlay, setIsPlay] = useState(false);
 
     const play = async ()=>{
-        if(device_id === false) transferDeviceId();
+        if(current_device_id === false) await transferDeviceId();
         if (isPlay)
             spotifyApi.pause({device_id});
         else
@@ -52,11 +52,11 @@ const Player = ({spotifyApi, ready, device_id, transferDeviceId, setDeviceId})=>
     }
 
     const skip = async ()=>{
-        if(device_id === false) transferDeviceId();
+        if(current_device_id === false) await transferDeviceId();
         spotifyApi.skipToNext({device_id});
     }
     const rewind = async ()=>{
-        if(device_id === false) transferDeviceId();
+        if(current_device_id === false) await transferDeviceId();
         spotifyApi.skipToPrevious({device_id});
     }
 
@@ -69,7 +69,7 @@ const Player = ({spotifyApi, ready, device_id, transferDeviceId, setDeviceId})=>
                 setCurrentPlaybackTime(0); 
                 setCurrentAlbumCover(null);
                 setIsPlay(false);
-                setDeviceId(false); 
+                set_current_device_id(false); 
                 return; 
             }
             setCurrentSong(resp?.body?.item?.name); 
