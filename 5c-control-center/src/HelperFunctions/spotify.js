@@ -1,6 +1,6 @@
 import {useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-axios.defaults.baseURL = window.location.href.split(":")[2].slice(0,-1) === "8080" ? 'http://192.168.68.150:8080': 'http://localhost:8080'; 
+axios.defaults.baseURL = window.location.href.split(":")[2].includes("8080") ? 'http://192.168.68.150:8080': 'http://localhost:8080'; 
 
 
 export const useAuth = ()=>{

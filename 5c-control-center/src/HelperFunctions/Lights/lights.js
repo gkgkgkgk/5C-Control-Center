@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
-axios.defaults.baseURL = window.location.href.split(":")[2].slice(0,-1) === "8080" ? 'http://192.168.68.150:8080': 'http://localhost:8080'; 
+axios.defaults.baseURL = window.location.href.split(":")[2].includes("8080") ? 'http://192.168.68.150:8080': 'http://localhost:8080'; 
 const socket = io(axios.defaults.baseURL);
 let callbacks = [];
 
