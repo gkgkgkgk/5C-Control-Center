@@ -36,7 +36,7 @@ const Controls = ({play,skip,rewind, isPlay})=>(
 )
 
 
-const Player = ({spotifyApi, ready})=>{
+const Player = ({spotifyApi, ready, device_id})=>{
     const [currentSong,setCurrentSong] = useState(null); 
     const [currentAlbumCover,setCurrentAlbumCover] = useState(null); 
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState("00"); 
@@ -44,17 +44,20 @@ const Player = ({spotifyApi, ready})=>{
     const [isPlay, setIsPlay] = useState(false);
 
     const play = ()=>{
+        if(device_id === false) return;
         if (isPlay)
-            spotifyApi.pause();
+            spotifyApi.pause({device_id});
         else
-            spotifyApi.play();
+            spotifyApi.play({device_id});
     }
 
     const skip = ()=>{
-        spotifyApi.skipToNext();
+        if(device_id === false) return;
+        spotifyApi.skipToNext({device_id});
     }
     const rewind = ()=>{
-        spotifyApi.skipToPrevious();
+        if(device_id === false) return;
+        spotifyApi.skipToPrevious({device_id});
     }
 
     const intervalFunction = ()=>{

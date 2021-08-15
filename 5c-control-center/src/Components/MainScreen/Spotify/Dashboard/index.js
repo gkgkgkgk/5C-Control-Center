@@ -9,11 +9,14 @@ const spotifyApi = new SpotifyWebAPI({clientId})
 const Dashboard = ({accessToken}) =>{
 
     const [ready,setReady]= useState(false);
+    const [deviceId,setDeviceId] = useState(false); 
 
     useEffect(()=>{
         setReady(false);
         if(!accessToken) return; 
         spotifyApi.setAccessToken(accessToken);
+        const [flag,device_id] = await getDeviceId(spotifyApi);
+        if(flag) setDeviceId(device_id); 
         setReady(true);
     },[accessToken]);
 
@@ -28,11 +31,11 @@ const Dashboard = ({accessToken}) =>{
                 display: 'flex',
             }}> 
                 <div style = {{flexBasis: "80%"}}>
-                    <SongSearcher spotifyApi={spotifyApi}>
-                        <Player spotifyApi={spotifyApi} ready={ready}/>
+                    <SongSearcher spotifyApi={spotifyApi} device_id={deviceId}>
+                        <Player spotifyApi={spotifyApi} ready={ready} device_id={deviceId}/>
                     </SongSearcher> 
                 </div>
-                <div style = {{flexBasis: "20%"}}><Playlists spotifyApi={spotifyApi} ready={ready}/> </div>
+                <div style = {{flexBasis: "20%"}}><Playlists device_id={deviceId}spotifyApi={spotifyApi} ready={ready}/> </div>
             </div>
         </div>
     );

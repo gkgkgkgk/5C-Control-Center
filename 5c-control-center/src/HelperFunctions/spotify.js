@@ -1,7 +1,7 @@
 import {useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 axios.defaults.baseURL = window.location.href.split(":")[2].includes("8080") ? 'http://192.168.68.150:8080': 'http://localhost:8080'; 
-
+const {device_id} = require('../env/playlists.json'); 
 
 export const useAuth = ()=>{
     const [accessToken,setAccessToken] = useState();
@@ -40,4 +40,15 @@ export const useAuth = ()=>{
         return ()=>clearInterval(interval); 
     },[expiresIn,refreshToken])
     return [accessToken,loginWithCode,loggedIn]; 
+}
+
+
+export const getDeviceId = (spotifyApi)=>{
+    const {body: {devices = []}} = await spotifyApi.getMyDevices(); 
+    if (devices.length === 0) return [false,0]; 
+    const flag = devices.reduce((acc,{id})=>acc || id === device_id,false);
+    return [true,flag ? device_id : devices[0].id];
+
+
+
 }

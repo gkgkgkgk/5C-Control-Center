@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 const {playlists} = require('../../../../env/playlists.json')
 
-const Playlists = ({spotifyApi, ready}) => {
+const Playlists = ({spotifyApi, ready, device_id}) => {
 
     const [playlistIcons,setPlaylistsIcons] = useState([]); 
 
     const onClick = uri =>{
-        spotifyApi.play({context_uri: uri}); 
+        spotifyApi.play({context_uri: uri,device_id}); 
     }
 
 

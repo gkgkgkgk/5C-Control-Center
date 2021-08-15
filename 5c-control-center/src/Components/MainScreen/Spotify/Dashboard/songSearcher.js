@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import Player from './player';
-const SongSearcher = ({spotifyApi,children})=>{
+import {getDeviceId} from "../../../../HelperFunctions/spotify"; 
+const SongSearcher = ({spotifyApi,children,device_id})=>{
 
     const [text,setText] = useState("");
     const [results, setResults] = useState(<ul></ul>); 
 
     const onClick = async uri=>{
-        const {body: {devices : [{id: device_id} = {id: null}] = []}} = await spotifyApi.getMyDevices(); 
-        if(!device_id) return; 
         await spotifyApi.addToQueue(uri,{device_id}); 
         spotifyApi.skipToNext(); 
         setText("");
