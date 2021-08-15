@@ -43,7 +43,7 @@ export const useAuth = ()=>{
 }
 
 
-export const getDeviceId = (spotifyApi)=>{
+export const getDeviceId = async (spotifyApi)=>{
     const {body: {devices = []}} = await spotifyApi.getMyDevices(); 
     if (devices.length === 0) return [false,0]; 
     const flag = devices.reduce((acc,{id})=>acc || id === device_id,false);
