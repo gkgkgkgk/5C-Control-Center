@@ -22,7 +22,7 @@ const SongSearcher = ({spotifyApi,children,correct_device_id: device_id, transfe
 
     return (
         <div>
-            <input type="text" value={text} onChange={onChange} style ={{width: '95%', height:"30px", fontSize: '20px'}} placeholder="search"/>
+            <input type="text" value={text} onChange={onChange} style ={{width: '95%', height:"60px", fontSize: '40px'}} placeholder="search"/>
             <div style={{display: 'flex', justifyContent: text ? 'start': 'center'}}>
                 {text ? results: children}
             </div>
