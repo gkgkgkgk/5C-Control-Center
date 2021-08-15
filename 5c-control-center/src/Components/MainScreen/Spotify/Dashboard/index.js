@@ -17,8 +17,8 @@ const Dashboard = ({accessToken}) =>{
         if(!accessToken) return; 
         spotifyApi.setAccessToken(accessToken);
         (async ()=>{
-            if(flag) setDeviceId(device_id); 
             const [flag,device_id] = await getDeviceId(spotifyApi);
+            if(flag) setDeviceId(device_id); 
             setReady(true);
         })(); 
     },[accessToken]);
