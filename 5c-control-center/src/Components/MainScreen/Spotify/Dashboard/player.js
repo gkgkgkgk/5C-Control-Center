@@ -129,6 +129,9 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     
     const intervalFunction = ()=>{
         spotifyApi.getMyCurrentPlaybackState().then((resp) =>{
+
+            
+
             if(!resp?.body) return; 
             if(resp?.body?.device?.id !== device_id){
                 setCurrentSong(null); 
