@@ -21,7 +21,7 @@ const Playlists = ({spotifyApi, ready, device_id}) => {
     },[ready])
 
     return (
-        <div style={{display: "flex", flexDirection: "column"}} > 
+        <div style={{display: "flex", flexDirection: "column", overflowY:"scroll"}} > 
             {playlistIcons}
         </div>
     )

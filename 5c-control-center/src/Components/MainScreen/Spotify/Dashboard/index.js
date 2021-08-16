@@ -2,7 +2,7 @@ import SongSearcher from './songSearcher';
 import Player from './player';
 import SpotifyWebAPI from "spotify-web-api-node"; 
 import Playlists from './playlists';
-import {useState, useEffect} from "react";
+import {useState, useEffect,useRef} from "react";
 import {getDeviceId, transferDevice} from "../../../../HelperFunctions/spotify"; 
 const {spotify: {clientId}} = require('../../../../env/keys.json')
 const spotifyApi = new SpotifyWebAPI({clientId})
@@ -12,6 +12,8 @@ const Dashboard = ({accessToken}) =>{
     const [ready,setReady]= useState(false);
     const [correctDeviceId,setCorrectDeviceId] = useState(false); 
     const [current_device_id,set_current_device_id] = useState(false); 
+    const queue = useRef([]); 
+    const resetFlag = useRef(null); 
 
     const transferDeviceId = async () => {
         set_current_device_id(await transferDevice(spotifyApi)); 
@@ -42,8 +44,8 @@ const Dashboard = ({accessToken}) =>{
                 height: '100%',
             }}> 
                 <div style = {{flexBasis: "80%"}}>
-                    <SongSearcher current_device_id={current_device_id} transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} correct_device_id={correctDeviceId}>
-                        <Player transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} ready={ready} correct_device_id={correctDeviceId} current_device_id={current_device_id} set_current_device_id={set_current_device_id}/>
+                    <SongSearcher current_device_id={current_device_id} transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} correct_device_id={correctDeviceId} queue={queue} resetFlag={resetFlag}>
+                        <Player transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} ready={ready} correct_device_id={correctDeviceId} current_device_id={current_device_id} set_current_device_id={set_current_device_id} queue={queue} />
                     </SongSearcher> 
                 </div>
                 <div style = {{flexBasis: "20%"}}><Playlists device_id={correctDeviceId}spotifyApi={spotifyApi} ready={ready}/> </div>
