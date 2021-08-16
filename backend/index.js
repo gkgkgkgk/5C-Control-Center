@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 
 let connectedDevices = [];
 let disconnectedDevices = [];
+let flag = false; 
 
 
 const makeStatus = dps => ({
@@ -51,32 +52,46 @@ const getDevices = async () => {
 getDevices();
 
 const connectAllDisconnected = async () => {
-    const devices = disconnectedDevices.map(async ({ Name, device }) => {
-        console.log("connecting from disconnected" + Name);
-        await device.find().catch(e => { console.error(`Error with ${Name}`) });
+    if(disconnectedDevices.length === 0) {
+        timeout = setTimeout(connectAllDisconnected, 10000);
+        return;
+    }
+    const disconnectedNames = disconnectedDevices.map(({Name})=>Name); 
+    const disconnectedKeys = device_keys.filter(({Name})=>disconnectedNames.includes(Name));
+    
+    for(let i = 0; i<disconnectedKeys.length; i++){
+        const { Name, id, key } = disconnectedKeys[i];
+        const device = new TuyAPI({ id, key });
+        console.log("reconnecting " + Name);
+        let error = false; 
+        await device.find().catch(e => { console.error(`Error with ${Name}`); error = true});
+        if(error) continue;
         await device.connect();
         const status = makeStatus((await device.get({ schema: true })).dps)
-        // device.on('disconnected', () => onDisconnected(Name, device));
-        // device.on('error', e => onError(e, Name, device));
-        // device.on('data', data => onData(data, Name, device));
-        // device.on('dp-refresh', (data) => onData(data, Name, device));
-        return ({ Name, device, status });
-    });
+        device.on('disconnected', () => onDisconnected(Name, device));
+        device.on('error', e => onError(e, Name, device));
+        device.on('dp-refresh', (data) => onData(data, Name, device));
 
-    connectedDevices = [...(await Promise.all(devices)), ...connectedDevices];
+        connectedDevices = [...connectedDevices.filter(({ Name: currentName }) => Name !== currentName), { Name, device, status  }];
+        disconnectedDevices = disconnectedDevices.filter(({ Name: currentName }) => Name !== currentName);
+        if(i === disconnectedKeys.length - 1)
+            timeout = setTimeout(connectAllDisconnected, 10000);
+    }
+    
 
 }
 
-const interval = setInterval(connectAllDisconnected, 10000);
+let timeout = setTimeout(connectAllDisconnected, 10000);
 
 const onError = (e, Name, device) => {
+    if(device.isConnected()) return; 
     connectedDevices = connectedDevices.filter(({ Name: currentName }) => Name !== currentName);
     disconnectedDevices = [...disconnectedDevices.filter(({ Name: currentName }) => Name !== currentName), { device, Name }];
 }
 
 const onDisconnected = (Name, device) => {
     connectedDevices = connectedDevices.filter(({ Name: currentName }) => Name !== currentName);
-    disconnectedDevices.push({ Name, device });
+    disconnectedDevices = [...disconnectedDevices.filter(({ Name: currentName }) => Name !== currentName), { device, Name }];
 }
 
 const onData = ({ dps: data }, Name, device) => {
