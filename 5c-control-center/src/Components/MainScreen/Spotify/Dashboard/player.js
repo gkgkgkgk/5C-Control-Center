@@ -1,22 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ScrollText from 'react-scroll-text'
+import ScrollText from 'react-scroll-text';
+import Slider from 'react-input-slider';
+
 const styleSheet = {
     outer: {
-        height:"5px", 
+        height:"10px", 
         width:"100%",
         border: "1px solid black",
         borderRadius: "2em ",
+        position:"relative",
     },
     inner: (currentTime,totalTime)=>({
-        position: "relative",
+        position: "absolute",
         top: "-6px",
         left: `${95*(currentTime/totalTime)}%`,
-        width: "12px",
-        height: "11px",
+        width: "20px",
+        height: "20px",
         borderRadius: "50%",
         border: "3px solid gray",
         backgroundColor: "white",
-    })
+    }),
+    flexCenter: {display: "flex", justifyContent: "center", alignItems: "center"},
+    fullWidth: {width: "100%"}
 }
 
 const SongLocationAndControls = ({callback, spotifyApi})=>{
@@ -56,7 +61,7 @@ const SongLocationAndControls = ({callback, spotifyApi})=>{
 }
 
 const SongLocation = ({currentTime,totalTime,onClick, circleRef,barRef})=>(
-    <div style = {{width: "100%"}}>
+    <div style = {{width: "50%"}}>
         <div style = {styleSheet.outer} onClick={onClick} ref={barRef}>
             <div style={styleSheet.inner(currentTime,totalTime)} ref={circleRef} />
         </div>
@@ -67,12 +72,24 @@ const Controls = ({callback,spotifyApi,transferDeviceId,current_device_id,device
     const [isPlay, setIsPlay] = useState(false);
     const [shuffleState,setShuffle] = useState(false); 
     const [loopState,setLoop] = useState(false);
+    const [volume, setVolume] = useState(0); 
+    const volumeRef = useRef(0); 
+    const lockRef = useRef(false); 
+    const unlockRef = useRef(false); 
 
     useEffect(()=>{
-        callback.current = (pState,sState = false,lState = false)=>{
+        callback.current = (pState,sState = false,lState = false, vState=0)=>{
             setIsPlay(pState);
             setShuffle(sState);
             setLoop(lState);
+            if(vState !== volume && unlockRef.current){
+                lockRef.current = false; 
+                unlockRef.current = false; 
+            }
+            if(!lockRef.current){
+                setVolume(vState); 
+                volumeRef.current = vState; 
+            }
         }
     },[])
 
@@ -95,25 +112,31 @@ const Controls = ({callback,spotifyApi,transferDeviceId,current_device_id,device
     }
 
     const loop = async ()=>{
-        console.log("hello");
         if(current_device_id === false) await transferDeviceId();
         spotifyApi.setRepeat(!loopState ? 'context' : 'off',{device_id});
     }
     const shuffle = async ()=>{
-        console.log("run");
         if(current_device_id === false) await transferDeviceId();
         spotifyApi.setShuffle(!shuffleState,{device_id});
     }
 
+    const changeVolume = async (e)=>{
+        if(current_device_id === false) await transferDeviceId();
+        unlockRef.current = true; 
+        spotifyApi.setVolume(volumeRef.current,{device_id});
+    }
+
     return (
-        <div style = {{display: "flex",justifyContent: "center"}}>
-            <img width={100} src="../../../assets/svg/shuffle.svg" onClick={shuffle} />
-            <img width={100} src="../../../assets/svg/rewind.svg" onClick={rewind} />
-            <img width={100} src={isPlay ? "../../../assets/svg/pause.svg": "../../../assets/svg/play.svg"} onClick={play} />
-            <img width={100} src="../../../assets/svg/skip.svg" onClick={skip} />
-            <img width={100} src="../../../assets/svg/loop.svg" onClick={loop} />
-            
-        </div>
+        <>
+            <div style = {styleSheet.flexCenter}>
+                <img width={100} src="../../../assets/svg/shuffle.svg" onClick={shuffle} />
+                <img width={100} src="../../../assets/svg/rewind.svg" onClick={rewind} />
+                <img width={100} src={isPlay ? "../../../assets/svg/pause.svg": "../../../assets/svg/play.svg"} onClick={play} />
+                <img width={100} src="../../../assets/svg/skip.svg" onClick={skip} />
+                <img width={100} src="../../../assets/svg/loop.svg" onClick={loop} />
+            </div>
+            <Slider styles={{ thumb: {width: 20, height: 20}, track: { width:"95%", height: 25, backgroundColor: 'white', backgroundColor: 'rgba(255,255,255,0.5)' }, active: { backgroundColor: 'rgba(0,0,255,1.0)', backgroundColor: 'white' } }} axis="x" x={volume} onChange={({x})=>{setVolume(x); volumeRef.current = x; lockRef.current = true;}} onDragEnd={changeVolume}/>
+        </>
     )
 }
 
@@ -125,7 +148,6 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     const [currentAlbumCover,setCurrentAlbumCover] = useState(null); 
     const playerCallback = useRef(console.log); 
     const controlsCallback = useRef(console.log); 
-    const context = useRef(null); 
     
     const intervalFunction = ()=>{
         spotifyApi.getMyCurrentPlaybackState().then((resp) =>{
@@ -144,9 +166,7 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
             setCurrentSong(resp?.body?.item?.name);
             playerCallback.current(resp?.body?.item?.duration_ms,resp?.body?.progress_ms); 
             setCurrentAlbumCover(resp.body?.item.album.images[0].url);
-            controlsCallback.current(resp.body?.is_playing,resp.body.shuffle_state,resp.body.repeat_state !== 'off');
-            queue.current = queue.current.filter(({Name})=>Name !== resp?.body?.item?.name); 
-            context.current = resp.body.context.uri; 
+            controlsCallback.current(resp.body?.is_playing,resp.body.shuffle_state,resp.body.repeat_state !== 'off', resp.body?.device?.volume_percent);
         })
         
     }
@@ -162,18 +182,18 @@ const Player = ({spotifyApi, ready, correct_device_id: device_id, transferDevice
     
 
     return(
-    <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <div style={{...styleSheet.fullWidth, ...styleSheet.flexCenter}}>
         <div style = {{width: "100%"}}>
 
-            <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <div style={styleSheet.flexCenter}>
                 <ScrollText style={{ fontSize: "40px", width: "300px", textAlign: 'center'}}>{currentSong}</ScrollText >
             </div>
             
-            <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <div style = {styleSheet.flexCenter}>
                 <img width={200} src={currentAlbumCover} style ={{ border: "1px solid black"}}/>
             </div>
             
-            <div style ={{display:"flex", alignItems: "center", width: "100%"}}>
+            <div style ={{...styleSheet.fullWidth, ...styleSheet.flexCenter}}>
                 <SongLocationAndControls callback={playerCallback} spotifyApi={spotifyApi}/>
             </div>
             <Controls callback={controlsCallback} transferDeviceId={transferDeviceId} spotifyApi={spotifyApi} current_device_id={current_device_id} device_id={device_id}/> 
