@@ -12,13 +12,14 @@ const styleSheet = {
     },
     inner: (currentTime,totalTime)=>({
         position: "absolute",
-        top: "-6px",
+        top: "-7px",
         left: `${95*(currentTime/totalTime)}%`,
         width: "20px",
         height: "20px",
         borderRadius: "50%",
         border: "3px solid gray",
         backgroundColor: "white",
+        
     }),
     flexCenter: {display: "flex", justifyContent: "center", alignItems: "center"},
     fullWidth: {width: "100%"}

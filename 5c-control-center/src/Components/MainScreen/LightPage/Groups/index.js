@@ -78,9 +78,7 @@ const Groups = ({ active, setActive, isGroup, setIsGroup }) => {
 
     const swap = () => {  setIsGroup(!isGroup); setActive(!isGroup ? ["All"]:[]); }
 
-    const buildCheckbox = ({ Name }) => (
-        <Card Name={Name} checked={() => (active.reduce((acc, name) => acc || (name === Name), false))} onClick={updateList} />
-    );
+    const buildCheckbox = ({ Name }) => <Card Name={Name} checked={() => (active.reduce((acc, name) => acc || (name === Name), false))} onClick={updateList} />
     const calculateWidth = ()=>(isGroup ? (groups.length / 2 ) * 240 : (devices.length / 2 ) * 240) +110; 
     const formattedWidth = ()=> calculateWidth() > 960 ? "100%": calculateWidth() + "px";
 

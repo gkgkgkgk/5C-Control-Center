@@ -15,7 +15,7 @@ const Login = ()=>{
 const Spotify = ({setBackground, spotifyAuth:[accessToken,loggedIn], spotifyStart=false})=>{
 
     useEffect(() => {
-        setBackground('white');
+        setBackground('linear-gradient(#1DB954,#191414)');
         console.log(loggedIn,spotifyStart);
         console.log(accessToken);
     },[])
