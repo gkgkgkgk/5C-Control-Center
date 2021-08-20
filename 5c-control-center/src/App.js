@@ -27,7 +27,7 @@ const App = () => {
 
 
   return (
-    <div style={{ height: "100vh", fontFamily: 'Poppins' }}>
+    <div style={{ height: "100vh", fontFamily: 'Poppins',overflow: "hidden" }}>
       {isSleep ? <SleepScreen toggleView={toggleSleep} /> : <MainScreen toggleView={toggleSleep} spotifyStart={goToSpotify} spotifyAuth={[accessToken,loggedIn]}/>}
     </div>
   )
