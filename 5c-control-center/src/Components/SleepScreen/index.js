@@ -9,6 +9,7 @@ const SleepScreen = ({ toggleView }) => {
     const [state, setState] = useState(false);
     const id = useRef(null);
     const toggleRef = useRef(null);
+    const refreshRef = useRef(null);
 
 
     const onUpdate = () => {
@@ -36,7 +37,7 @@ const SleepScreen = ({ toggleView }) => {
     }
 
     const changeView = ({ target }) => {
-        if (toggleRef.current != target)
+        if (toggleRef.current != target && refreshRef.current != target) 
             toggleView();
     }
 
@@ -46,7 +47,7 @@ const SleepScreen = ({ toggleView }) => {
         <div style={{ backgroundColor: "black", height: "100%", margin: 0, display: 'flex', justifyContent: 'center' }}>
             <div style={{ display: 'flex', flexDirection: "column" }}>
                 <div style={{ height: '33%' }} />
-                <Clock />
+                <Clock refreshRef={refreshRef}/>
                 <Toggle
                     refrence={toggleRef}
                     onChange={onUpdate}
