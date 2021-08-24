@@ -11,7 +11,10 @@ const Clock = ({ textSize = 7, refreshRef }) => {
     const updateTime = () => {
         setTime(new Date().toLocaleTimeString([],{hour: 'numeric', minute: '2-digit'}));
         lastUpdate.current++; 
-        setLastUpdateStr(Math.floor(lastUpdate.current / 60)); 
+        const strTime = Math.floor(lastUpdate.current / 60); 
+        setLastUpdateStr(strTime);
+        if (strTime >= 60)
+            updateWeather(); 
     }
     
 
@@ -22,12 +25,10 @@ const Clock = ({ textSize = 7, refreshRef }) => {
     }
     useEffect(() => {
         updateWeather();
-        let interval1 = setInterval(updateTime, 1000);
-        let interval2 = setInterval(updateWeather, 10800000); 
+        let interval = setInterval(updateTime, 1000);
         
         return function cleanup() {
-            clearInterval(interval1);
-            clearInterval(interval2);
+            clearInterval(interval);
         }
 
     }, [])
