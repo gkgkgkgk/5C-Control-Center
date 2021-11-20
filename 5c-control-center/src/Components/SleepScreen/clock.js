@@ -36,7 +36,7 @@ const Clock = ({ textSize = 7, refreshRef }) => {
     return (
         <div style={{ color: 'white', textAlign:'center'}}>
             <div style ={{fontSize: `${textSize}em`}}>{time} </div>
-            <span ref={refreshRef} onClick={()=>updateWeather()} style = {{fontSize: `${textSize/2}em`}}>{weather}°F <span>{lastUpdateStr} Min Ago</span></span>
+            <span ref={refreshRef} onClick={()=>updateWeather()} style = {{fontSize: `${textSize/2}em`}}>{weather}°F</span>
         </div>
     )
 }
